@@ -12,13 +12,14 @@
   v-bind:item="reakcija" 
   v-bind:index="index"
   v-bind:key = "reakcija._id">
-    <p class="text" style="color:white">{{reakcija.date}} - -{{reakcija.emoticon}}</p>
 </div>
     </div>
 </template>
 
 <script>
 import PostService from '../PostService';
+
+import { mapGetters } from "vuex";
 
 export default {
   name: 'reakcije',
@@ -28,6 +29,9 @@ export default {
       date: Date.now(),
       reakcije : []
     }
+  },
+  computed: {
+  ...mapGetters(["get_maxBrojeva"]),
   },
 async created()
   {

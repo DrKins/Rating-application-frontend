@@ -2,23 +2,28 @@
 <div id="admin">
 <form id="forma">
  <span style="color:white">Poruka</span>
-<input style="color:white" v-model="message.text" placeholder="edit me">
+<input style="color:white" v-model="message.text" placeholder="Unesite poruku">
 <!--<p style="color:white">{{ message.text }}</p>>--><br>
  <span style="color:white">Trajanje poruke</span>
- <input style="color:white" v-model="message.duzina" placeholder="edit me">
-<!--<p style="color:white">{{ message.duzina }}</p>--><br>
-    <select style="color:white" v-model="selected">
+<select style="color:white" v-model="message.duzina">
   <option  disabled value=""></option>
   <option>3</option>
   <option>4</option>
   <option>5</option>
     </select><br>
- <span style="color:white">BROJ EMOTIKONA {{ selected }}</span>
+<!--<p style="color:white">{{ message.duzina }}</p>--><br>
+<span style="color:white">Broj emotikona</span>
+  <select style="color:white" v-model="selected">
+  <option  disabled value=""></option>
+  <option>3</option>
+  <option>4</option>
+  <option>5</option>
+    </select><br>
+
 </form>
 <form id="button">
       <button v-on:click="send" style="color:white">Send</button>
 </form>
-{{settings}}
 </div>
 </template>
 
@@ -31,8 +36,8 @@ export default {
         return {
              message: 
             {
-            text: "Hvala vam na glasanju",
-            duzina: 5
+            text: "",
+            duzina: 3
             },
             selected: 3,
             settings : []
@@ -51,8 +56,8 @@ export default {
     {
        async send()
     {
-      await PostService.updatePost();
-       this.settings = await PostService.getSettings(); 
+      await PostService.updatePost(this.message.text,this.message.duzina,this.selected);
+       this.settings = await PostService.getSettings();
     }
     }
 }

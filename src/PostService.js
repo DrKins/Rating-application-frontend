@@ -49,7 +49,7 @@ class PostService
     }
     static updatePost(poruka,trajanjePoruke,brojEmotikona)
     {
-        return axios.put('http://localhost:3000/getsettings/1',{    
+           return axios.put('http://localhost:3000/getsettings/'+poruka+'/'+trajanjePoruke+'/'+brojEmotikona,{    
             poruka,
             trajanjePoruke,
             brojEmotikona
