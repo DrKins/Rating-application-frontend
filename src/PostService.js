@@ -61,6 +61,14 @@ class PostService
     {
         return axios.delete(`${url}${id}`);
     }
+
+    //brojanje reakcija 
+    static countReaction(id)
+    {
+        return axios.get(`http://localhost:3000/countpost/`+id,{
+            id
+        });
+    }
 }
 
 export default PostService;
