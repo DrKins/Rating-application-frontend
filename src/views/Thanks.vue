@@ -1,6 +1,7 @@
 <template>
-  <div class="about">
-    <h1>Hvala vam na glasanju</h1>
+  <div class="thanks">
+    <img alt="logotip" src="../assets/logo.png" class="logotip" id="logo">
+    <h1 class="poruka">Hvala na povjerenju!</h1>
   </div>
 </template>
 <script>
@@ -14,3 +15,16 @@ mounted: function()
 }
 }
 </script>
+<style scoped>
+.thanks {
+  min-height: 100vh;
+}
+.logotip {
+ width: 25%;
+ padding: 4%;
+}
+.poruka {
+  padding: 1%;
+  font-size: 4.5vh;
+}
+</style>

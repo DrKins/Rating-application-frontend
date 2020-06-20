@@ -1,29 +1,39 @@
 <template>
-<div id="admin">
+<div class="admin">
 <form id="forma">
- <span style="color:white">Poruka</span>
-<input style="color:white" v-model="message.text" placeholder="Unesite poruku">
-<!--<p style="color:white">{{ message.text }}</p>>--><br>
- <span style="color:white">Trajanje poruke</span>
-<select style="color:white" v-model="message.duzina">
-  <option  disabled value=""></option>
-  <option>3</option>
-  <option>4</option>
-  <option>5</option>
-    </select><br>
-<!--<p style="color:white">{{ message.duzina }}</p>--><br>
-<span style="color:white">Broj emotikona</span>
-  <select style="color:white" v-model="selected">
-  <option  disabled value=""></option>
-  <option>3</option>
-  <option>4</option>
-  <option>5</option>
-    </select><br>
-
-</form>
-<form id="button">
+  <div class="razmak">
+    <span style="color:white">Poruka</span>
+    <input style="color:white" v-model="message.text" placeholder="Unesite poruku">
+    <!--<p style="color:white">{{ message.text }}</p>>--><br>
+  </div>
+  <div class="razmak">
+  <span style="color:white">Trajanje poruke</span>
+  <select style="color:white" v-model="message.duzina">
+    <option  disabled value=""></option>
+    <option>3</option>
+    <option>4</option>
+    <option>5</option>
+      </select><br>
+  <!--<p style="color:white">{{ message.duzina }}</p>--><br>
+  </div>
+  <div class="razmak">
+  <span style="color:white">Broj emotikona</span>
+    <select style="color:white" v-model="selected">
+    <option  disabled value=""></option>
+    <option>3</option>
+    <option>4</option>
+    <option>5</option>
+      </select><br>
+  </div>
+  <span>
+    <form id="button">
       <button v-on:click="send" style="color:white">Send</button>
+    </form>
+  </span>
 </form>
+<!-- <form id="button">
+      <button v-on:click="send" style="color:white">Send</button>
+</form> -->
 </div>
 </template>
 
@@ -64,19 +74,28 @@ export default {
 </script>
 
 <style scoped>
-*
-{
-    margin: 30px;
-    padding: 30px;
+.admin{
+  min-height: 100vh;
+  padding: 30vh;
+  position: relative;
 }
 #forma
 {
-    border: 1px solid white;
+  margin: auto;
+  width: 50vw;
+  height: 40vh;
+  border: 1px solid black;
+  background-color:#1e293b;
+  padding: 2vw;
 }
-#button
+.razmak {
+  padding-top: 4vh;
+
+}
+ #button
 {
-    border: 1px solid white;
-}
+  margin-top: 10vh;
+} 
 #admin
 {
     border:1px solid black;
