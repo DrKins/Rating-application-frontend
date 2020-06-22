@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const url = 'http://localhost:3000/getreaction/';
-const urlreakcije = 'http://localhost:3000/getsettings';
+const urlsettings = 'http://localhost:3000/getsettings';
 class PostService
 {
     //uzmi postove
@@ -24,7 +24,7 @@ class PostService
     }
     static getSettings() {
         return new Promise ((resolve,reject) => {
-            axios.get(urlreakcije).then((res) => {
+            axios.get(urlsettings).then((res) => {
                 const data = res.data;
                 resolve(
                     data.map( (poruka,trajanjePoruke,brojEmotikona)=> ({
@@ -43,8 +43,29 @@ class PostService
     //napravi post
     static insertPost(emoticon)
     {
-        return axios.get('http://localhost:3000/insertreaction/'+emoticon,{
+        axios.get('http://localhost:3000/insertreaction/'+emoticon,{
         emoticon
+        });
+    }
+    static ec(x) //COUNT(emoticon)
+    {
+        return new Promise ((resolve,reject) => {
+            axios.get('http://localhost:3000/ec/'+x).then((res) => {
+                const data = res.data;
+                resolve(
+                    data.filter( (id,date,emoticon)=> ({
+                        ...id,
+                        ...date,
+                        ...emoticon
+                    }
+                    )
+                    )
+                );
+            })
+            .catch((err)=> {
+                reject(err);
+            })
+            
         });
     }
     static updatePost(poruka,trajanjePoruke,brojEmotikona)
@@ -60,6 +81,10 @@ class PostService
     static deletePost(id)
     {
         return axios.delete(`${url}${id}`);
+    }
+    static getEmoticons() 
+    {
+   
     }
 }
 
