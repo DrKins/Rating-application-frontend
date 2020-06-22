@@ -39,7 +39,7 @@ export default {
     return {
       datasets:[
         {
-         data:[],  // niz vrijednosti koje ispisujes na chartu
+         data:[],  // niz vrijednosti koje ispisuje na chartu
           backgroundColor: ["#f36e60", "#ffdb3b", "#185190","#3437eb","#eb34eb"], // pozadniske boje pie charta
           hoverBackgroundColor: ["#fbd2cd", "#fef5c9", "#d1e3f7","#d1d1fa","#fad1fa"] // isto boje charta
         }
