@@ -26,12 +26,15 @@ class PostService
         return new Promise ((resolve,reject) => {
             axios.get(urlreakcije).then((res) => {
                 const data = res.data;
+              
                 resolve(
-                    data.map( (poruka,trajanjePoruke,brojEmotikona)=> ({
+                   data.map( (poruka,trajanjePoruke,brojEmotikona)=> ({
                         ...poruka,
                         ...trajanjePoruke,
                         ...brojEmotikona
                     }))
+           //    JSON.stringify(data[0].brojEmotikona)
+                
                 );
             })
             .catch((err)=> {
@@ -63,10 +66,18 @@ class PostService
     }
 
     //brojanje reakcija 
-    static countReaction(id)
+    static countReaction()
     {
-        return axios.get(`http://localhost:3000/countpost/`+id,{
-            id
+        return new Promise ((resolve,reject) => {
+            axios.get('http://localhost:3000/countreaction')
+                .then((res) => {
+                const data = res.data;
+                resolve(data);
+                
+            })
+            .catch((err)=> {
+                reject(err);
+            })
         });
     }
 }

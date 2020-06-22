@@ -1,7 +1,8 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h2 class="card-title">Doughnut</h2>
+      <h2 class="card-title"></h2>
+       
     </div>
 
     <div class="card-img-bottom">
@@ -11,38 +12,29 @@
         :labels="labels"
         :option="option"
       />
+     
     </div>
   </div>
 </template>
 
 <script>
 import PostService from '../PostService';
-var niz =  [];
+
 export default {
   
         async created()
   {
-    try{
+      this.niz=await PostService.countReaction();
+      this.datasets[0].data = await PostService.countReaction();
+    //  this.datasets.data = await PostService.countReaction();
+  },
 
-     
-     let settings = await PostService.getSettings();
-      
-    for(let i = 0;i<settings.brojEmotikona;i++){
-      niz.push(await PostService.countReaction(this.id));
-     }
-      
-    }
-    catch(err) {
-      this.error = err.message;
-    }
-  }, 
-    
-  
   data() {
     return {
-      datasets: [
+      niz:[],
+      datasets:[
         {
-          data:niz,  // niz vrijednosti koje ispisujes na chartu
+         data:[],  // niz vrijednosti koje ispisujes na chartu
           backgroundColor: ["#f36e60", "#ffdb3b", "#185190","#3437eb","#eb34eb"], // pozadniske boje pie charta
           hoverBackgroundColor: ["#fbd2cd", "#fef5c9", "#d1e3f7","#3437eb","#eb34eb"] // isto boje charta
         }
