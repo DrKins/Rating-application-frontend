@@ -1,18 +1,27 @@
 <template>
   <div class="thanks">
     <img alt="logotip" src="../assets/logo.png" class="logotip" id="logo">
-    <h1 class="poruka">Hvala na povjerenju!</h1>
+    <h1 class="poruka">{{get_poruka}}</h1>
   </div>
 </template>
 <script>
-export default {
+import { mapGetters, mapMutations} from "vuex";
 
+export default {
+beforeMount: function()
+{
+    this.update();
+},
 mounted: function()
 {
    setTimeout(() => {
       this.$router.push('/');
-     }, 5000);
-}
+     }, this.get_trajanjePoruke*1000);
+},
+computed: {
+  ...mapGetters(["get_poruka","get_trajanjePoruke"]),
+  ...mapMutations(['update']),
+  },
 }
 </script>
 <style scoped>

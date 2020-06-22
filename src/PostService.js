@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "store";
 
 const url = 'http://localhost:3000/getreaction/';
 const urlsettings = 'http://localhost:3000/getsettings';
@@ -73,11 +74,13 @@ class PostService
     }
     static updatePost(poruka,trajanjePoruke,brojEmotikona)
     {
-           return axios.put('http://localhost:3000/getsettings/'+poruka+'/'+trajanjePoruke+'/'+brojEmotikona,{    
+           axios.put('http://localhost:3000/getsettings/'+poruka+'/'+trajanjePoruke+'/'+brojEmotikona,{    
             poruka,
             trajanjePoruke,
             brojEmotikona
-        });
+        }
+        );
+        store.commit("updatebrojEmotikona",brojEmotikona);
     }
     //obrisi post
 

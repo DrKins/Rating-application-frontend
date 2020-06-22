@@ -1,25 +1,20 @@
 <template>
   <div class="pozadina">
+  <!-- <h1 style="color:white">{{get_brojEmotikona}}</h1>  BROJ EMOTIKONA-->
   <img alt="logotip" src="../assets/logo.png" class="logotip" id="logo">
   <h1 class="poruka">Molimo Vas ocijenite naše usluge klikom na emotikon!</h1>
-   <img v-on:click="preusmjeri" alt="1 smajli" src="../assets/blackPack/1.png"  class="emotikon" id="1">
-    <img v-on:click="preusmjeri" alt="2 smajli" src="../assets/blackPack/2.png" class="emotikon" id="2">
+   <img  v-on:click="preusmjeri" alt="1 smajli" src="../assets/blackPack/1.png"  class="emotikon" id="1">
+    <img  v-if="get_brojEmotikona==5" v-on:click="preusmjeri" alt="2 smajli" src="../assets/blackPack/2.png" class="emotikon" id="2">
     <img v-on:click="preusmjeri" alt="3 smajli" src="../assets/blackPack/3.png" class="emotikon" id="3">
-    <img v-on:click="preusmjeri" alt="4 smajli" src="../assets/blackPack/4.png" class="emotikon" id="4">
+    <img v-if="get_brojEmotikona==4 || get_brojEmotikona==5" v-on:click="preusmjeri" alt="4 smajli" src="../assets/blackPack/4.png" class="emotikon" id="4">
     <img v-on:click="preusmjeri" alt="5 smajli" src="../assets/blackPack/5.png" class="emotikon" id="5">
-  <div class="reakcije"
-  v-for="(reakcija,index) in reakcije"
-  v-bind:item="reakcija" 
-  v-bind:index="index"
-  v-bind:key = "reakcija._id">
-</div>
     </div>
 </template>
 
 <script>
 import PostService from '../PostService';
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations} from "vuex";
 
 export default {
   name: 'reakcije',
@@ -27,13 +22,13 @@ export default {
     return {
       emoticon: 11,
       date: Date.now(),
-      reakcije : []
     }
   },
   computed: {
-  ...mapGetters(["get_maxBrojeva"]),
+  ...mapGetters(["get_brojEmotikona"]),
+  ...mapMutations(['update']),
   },
-async created()
+async beforeCreate()
   {
     try{
       this.reakcije = await PostService.getPosts();
@@ -41,6 +36,11 @@ async created()
     catch(err) {
       this.error = err.message;
     }
+    this.emotikoni();
+  },
+  mounted()
+  {
+  this.update();
   },
   methods: {
     async preusmjeri()
@@ -57,16 +57,6 @@ async created()
     }
   }
 }
- 
-   /* async preusmjeri()
-    {
-     this.emoticon = event.srcElement.id;
-    console.log(this.emoticon)
-    await reakcijeBaza.insertReakcije(new Date(),event.srcElement.id);
-    //this.$router.push('/about');
-    }
-  }*/
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

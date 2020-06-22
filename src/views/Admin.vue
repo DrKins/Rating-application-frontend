@@ -3,12 +3,12 @@
 <form id="forma">
   <div class="razmak">
     <span style="color:white">Poruka</span>
-    <input style="color:white" v-model="message.text" placeholder="Unesite poruku">
+    <input style="color:black" v-model="message.text" placeholder="Unesite poruku">
     <!--<p style="color:white">{{ message.text }}</p>>--><br>
   </div>
   <div class="razmak">
   <span style="color:white">Trajanje poruke</span>
-  <select style="color:white" v-model="message.duzina">
+  <select style="color:black" v-model="message.duzina">
     <option  disabled value=""></option>
     <option>3</option>
     <option>4</option>
@@ -18,7 +18,7 @@
   </div>
   <div class="razmak">
   <span style="color:white">Broj emotikona</span>
-    <select style="color:white" v-model="selected">
+    <select style="color:black" v-model="selected">
     <option  disabled value=""></option>
     <option>3</option>
     <option>4</option>
@@ -90,7 +90,6 @@ export default {
 }
 .razmak {
   padding-top: 4vh;
-
 }
  #button
 {
