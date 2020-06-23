@@ -1,5 +1,4 @@
 import axios from "axios";
-import store from "store";
 
 const url = 'http://localhost:3000/getreaction/';
 const urlsettings = 'http://localhost:3000/getsettings';
@@ -80,17 +79,12 @@ class PostService
             brojEmotikona
         }
         );
-        store.commit("updatebrojEmotikona",brojEmotikona);
     }
     //obrisi post
 
     static deletePost(id)
     {
         return axios.delete(`${url}${id}`);
-    }
-    static getEmoticons() 
-    {
-   
     }
     //brojanje reakcija 
     static countReaction()
