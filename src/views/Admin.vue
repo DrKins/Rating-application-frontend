@@ -39,7 +39,7 @@
 
 <script>
 
-import PostService from '../PostService';
+import Services from '../services';
 export default {
     data: function()
     {
@@ -56,7 +56,7 @@ export default {
     async created()
   {
     try{
-      this.settings = await PostService.getSettings();
+      this.settings = await Services.getSettings();
     }
     catch(err) {
       this.error = err.message;
@@ -66,8 +66,8 @@ export default {
     {
        async send()
     {
-      await PostService.updatePost(this.message.text,this.message.duzina,this.selected);
-       this.settings = await PostService.getSettings();
+      await Services.updatePost(this.message.text,this.message.duzina,this.selected);
+       this.settings = await Services.getSettings();
     }
     }
 }

@@ -25,14 +25,14 @@
 </template>
 
 <script>
-import PostService from '../PostService';
+import Services from '../services';
 
 export default {
   
         async created()
   {
-      this.datasets[0].data = await PostService.countReaction();      //upisivanje podataka iz backenda u niz za ispis
-      this.datasets1[0].data = await PostService.countReaction();      //upisivanje podataka iz backenda u niz za ispis
+      this.datasets[0].data = await Services.countReaction();      //upisivanje podataka iz backenda u niz za ispis
+      this.datasets1[0].data = await Services.countReaction();      //upisivanje podataka iz backenda u niz za ispis
   },
 
   data() {

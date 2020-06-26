@@ -1,7 +1,7 @@
 <template>
   <div class="thanks">
     <img alt="logotip" src="../assets/logo.png" class="logotip" id="logo">
-    <h1 class="poruka">{{get_poruka}}</h1>
+    <h1 class="poruka">{{get_adminMessage}}</h1>
   </div>
 </template>
 <script>
@@ -16,10 +16,10 @@ mounted: function()
 {
    setTimeout(() => {
       this.$router.push('/');
-     }, this.get_trajanjePoruke*1000);
+     }, this.get_adminMessageduration*1000);
 },
 computed: {
-  ...mapGetters(["get_poruka","get_trajanjePoruke"]),
+  ...mapGetters(["get_adminMessage","get_adminMessageduration"]),
   ...mapMutations(['update']),
   },
 }
