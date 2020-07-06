@@ -25,15 +25,15 @@
 </template>
 
 <script>
-import Services from '../services';
+// import Services from '../services';
 
 export default {
   
-        async created()
-  {
-      this.datasets[0].data = await Services.countReaction();      //upisivanje podataka iz backenda u niz za ispis
-      this.datasets1[0].data = await Services.countReaction();      //upisivanje podataka iz backenda u niz za ispis
-  },
+  //       async created()
+  // {
+  //     this.datasets[0].data = await Services.countReaction();      //upisivanje podataka iz backenda u niz za ispis
+  //     this.datasets1[0].data = await Services.countReaction();      //upisivanje podataka iz backenda u niz za ispis
+  // },
 
   data() {
     return {

@@ -39,7 +39,7 @@
 
 <script>
 
-import Services from '../services';
+// import Services from '../services';
 export default {
     data: function()
     {
@@ -53,23 +53,23 @@ export default {
             settings : []
         }
     },
-    async created()
-  {
-    try{
-      this.settings = await Services.getSettings();
-    }
-    catch(err) {
-      this.error = err.message;
-    }
-  },
-    methods:
-    {
-       async send()
-    {
-      await Services.updatePost(this.message.text,this.message.duzina,this.selected);
-       this.settings = await Services.getSettings();
-    }
-    }
+  //   async created()
+  // {
+  //   try{
+  //     this.settings = await Services.getSettings();
+  //   }
+  //   catch(err) {
+  //     this.error = err.message;
+  //   }
+  // },
+  //   methods:
+  //   {
+  //      async send()
+  //   {
+  //     await Services.updatePost(this.message.text,this.message.duzina,this.selected);
+  //      this.settings = await Services.getSettings();
+  //   }
+  //   }
 }
 </script>
 

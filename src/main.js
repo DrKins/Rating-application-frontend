@@ -4,9 +4,12 @@ import router from './router';
 import store from './store';
 import "chart.js";
 import "hchs-vue-charts";
-Vue.use(window.VueCharts);
 
-Vue.config.productionTip = false
+import VuePageTransition from 'vue-page-transition';
+Vue.use(VuePageTransition);
+
+Vue.use(window.VueCharts);
+Vue.config.productionTip = false;
 
 new Vue({
   store,

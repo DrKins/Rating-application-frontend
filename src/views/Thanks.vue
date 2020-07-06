@@ -1,6 +1,5 @@
 <template>
   <div class="thanks">
-    <img alt="logotip" src="../assets/logo.png" class="logotip" id="logo">
     <h1 class="poruka">{{get_adminMessage}}</h1>
   </div>
 </template>
