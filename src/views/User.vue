@@ -2,7 +2,7 @@
   <div class="user">
   <logo />
   <message />
-  <emoticons />
+  <emoticons/>
   </div>
 </template>
 
@@ -11,13 +11,12 @@
 import logo from '@/components/logotype.vue'
 import message from '@/components/message.vue'
 import emoticons from '@/components/emoticons.vue'
-
 export default {
   name: 'User',
   components: {
     logo,
     message,
     emoticons
-  }
+  },
 }
 </script>

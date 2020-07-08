@@ -1,8 +1,8 @@
 <template>
   <div class="background">
     <ul id="horizontal-list">
-      <li v-for="item in items" :key="item.id">
-        <img v-bind:src="item.img" v-bind:alt="item.title" v-bind:class="emoticon" :id="item.id" @click="sendReaction">
+      <li v-for="item in items" :key="item">
+        <img v-bind:src="item.img" v-bind:alt="item.title" v-bind:class="emoticon" :id="item.id" @click="insertReaction">
       </li>
     </ul>
   </div>
@@ -10,7 +10,7 @@
 
 
 <script>
-//import Services from '../services';
+import Services from '../services/api';
 import { mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
@@ -19,7 +19,7 @@ export default {
     return {
       emoticon: "yellowPack",
       items: [],
-      emoji: 1
+      emoji: null,
     }
   },
   computed: {
@@ -29,33 +29,44 @@ export default {
   Token: 'get_token',
   vuex_items: 'get_items',
   emoticonNumber: 'get_emoticonNumber',
-  Niz: 'get_array'})
+  Niz: 'get_array'}),
   },
-  mounted(){
+  watch: {
+     emoticonNumber: function() {
         this.updateGUI(this.emoticon,this.vuex_items,this.emoticonNumber)
+//        setTimeout(this.restartInactive, 2500);
+     }
   },
   methods: {
     updateGUI(emoticon, array, number) {
+      console.log(number);
      var newArray = array.filter((item)=>{
         return item.title == emoticon && (item.number.includes(number));
       });
       this.items = [...newArray];
-      console.log(this.items);
     },
-    sendReaction() {
-      return this.emoji = event.target.id;
+    async waitForSettings() {
+      this.updateGUISettingsAction(await Services.getSettings(this.Token));
+    },
+    insertReaction() {
+      this.emoji = event.target.id;
+      Services.insertReaction(this.emoji,this.Token)
+      setTimeout(()=>{
+        this.$router.push('/thanks');
+      },1000)
     },
     ...mapActions([ // calling mutation that will update token in vuex.
     'updateGUISettingsAction'
      ]),
   },
   created : function(){
-    this.updateGUISettingsAction(this.Token)
+    this.waitForSettings()
   },
+  mounted(){
+  },
+
 }
 </script>
-
-
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
