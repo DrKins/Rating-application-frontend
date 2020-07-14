@@ -44,7 +44,8 @@ export default {
     },
     computed: {
       ...mapGetters({
-        getToken : 'get_token'
+        getToken : 'get_token',
+        getLevel : 'get_level'
    }),
     },
     methods:
@@ -52,7 +53,8 @@ export default {
       async send(){
         this.updateTokenAction(await Services.login(this.message.username,this.message.password))
         setTimeout(()=>{
-          this.$router.push('/user');
+          if(this.getLevel == 1 ) this.$router.push('/user')
+          else this.$router.push('/admin')
         }, 2500);
      },
      ...mapActions([ // calling mutation that will update token in vuex.

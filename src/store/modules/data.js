@@ -4,6 +4,7 @@ const state = {
     emoticonNumber : 0,
     adminMessageduration : 0,
     token : 'nntoken',
+    level: 1,
     items: [
         {title: 'blackPack', img: require('../../assets/blackPack/1.png'), id: 1 , number: [3,4,5]},
         {title: 'blackPack', img: require('../../assets/blackPack/2.png'), id: 2, number: [5]},
@@ -26,7 +27,8 @@ const getters = {
     get_adminMessageduration : state => state.adminMessageduration,
     get_token : state => state.token,
     get_items : state => state.items,
-    get_loaded : state => state.loaded
+    get_loaded : state => state.loaded,
+    get_level : state => state.level
 };
 
 const actions ={
@@ -41,6 +43,7 @@ const actions ={
 const mutations = {
     mutateToken(state, payload) {
         state.token = payload.token
+        state.level = payload.level
         state.loaded = false
      },
     mutateGUISettings(state, payload) {

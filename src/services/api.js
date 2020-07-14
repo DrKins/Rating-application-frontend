@@ -28,7 +28,7 @@ class Services
             })
         });
     }
-
+// Inserting reactions to database.
      static insertReaction(id,token)
          {
              axios.post(url+'reactions/insertreaction', {
@@ -38,7 +38,7 @@ class Services
                      console.log(error);
                    });
          }
-
+// Login system.
     static login(username, password) 
     {
             return new Promise((resolve, reject) => {
@@ -53,7 +53,27 @@ class Services
                        .catch((err) => reject(err));
             });
           }
-
+// Getting reactions for charts.
+    static countReactions(token) {
+        return new Promise ((resolve,reject) => {
+                console.log(token);
+                axios({
+                    method: 'GET',
+                    url: url+'reactions/countreaction',
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                  })
+                .then((res) => {
+                    const data = res.data;
+                    console.log(data),
+                    resolve(data);
+                })
+                .catch((err)=> {
+                    reject(err);
+                })
+            });
+        }         
     // static ec(x) //COUNT(emoticon)
     // {
     //     return new Promise ((resolve,reject) => {

@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-    <ul id="horizontal-list">
+    <ul id="horizontal-list" v-bind:class="{none: !load}">
       <li v-for="item in items" :key="item">
         <img v-bind:src="item.img" v-bind:alt="item.title" v-bind:class="emoticon" :id="item.id" @click="insertReaction">
       </li>
@@ -20,6 +20,7 @@ export default {
       emoticon: "yellowPack",
       items: [],
       emoji: null,
+      load: false
     }
   },
   computed: {
@@ -29,12 +30,11 @@ export default {
   Token: 'get_token',
   vuex_items: 'get_items',
   emoticonNumber: 'get_emoticonNumber',
-  Niz: 'get_array'}),
+  loaded: 'get_loaded'}),
   },
   watch: {
      emoticonNumber: function() {
         this.updateGUI(this.emoticon,this.vuex_items,this.emoticonNumber)
-//        setTimeout(this.restartInactive, 2500);
      }
   },
   methods: {
@@ -55,12 +55,18 @@ export default {
         this.$router.push('/thanks');
       },1000)
     },
+    loading(){
+      setTimeout(()=>{
+        this.load = true;
+      },4000);
+    },
     ...mapActions([ // calling mutation that will update token in vuex.
     'updateGUISettingsAction'
      ]),
   },
   created : function(){
     this.waitForSettings()
+    this.loading()
   },
   mounted(){
   },
@@ -77,6 +83,9 @@ export default {
 .background {
   min-height: 100vh;
 }
+.none{
+  display:none;
+}
 ul#horizontal-list li {
 	display: inline-block;
 	}
@@ -89,5 +98,6 @@ li img {
   padding: 1vw;
   margin: 1vw;
 }
+
 </style>
 
