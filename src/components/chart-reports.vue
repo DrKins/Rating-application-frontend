@@ -21,14 +21,15 @@
 </template>
 
 <script>
- import Services from '../services/api';
+// import Services from '../services/api';
  import { mapGetters } from 'vuex';
 
 export default {
-  async created()
-    {
-       this.datasets[0].data = await Services.countReactions(this.Token);      //upisivanje podataka iz backenda u niz za ispis
-   },
+    watch: {
+      Payload: function(){
+        this.datasets[0].data = this.Payload
+      }
+    },
   data() {
     return {
       datasets:[
@@ -78,7 +79,7 @@ export default {
   },
       computed: {
       ...mapGetters({
-        Token : 'get_token',
+        Payload : 'get_statistics',
    }),
   },
 }

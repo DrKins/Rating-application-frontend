@@ -3,39 +3,66 @@
   <div id="container">
     <div class="nav">
        <ul>
-        <li><a class="active" href="#today">Today</a></li>
-        <li><a href="#">Reports</a></li>
-        <li><a href="#">Settings</a></li>
+        <li><a @click="controller.today = true; controller.reports = false; controller.settings = false;" :class="{active: controller.today}">Today</a></li>
+        <li><a @click="controller.reports = true; controller.today = false; controller.settings = false;" :class="{active: controller.reports}">Reports</a></li>
+        <li><a @click="controller.settings = true; controller.today = false; controller.reports = false;" :class="{active: controller.settings}">Settings</a></li>
       </ul>
     </div>
-    <div id="today"><chart/></div>
-    <div id="reports" class="none"><chart/></div>
-    <div id="settings" class="none"></div>
-  </div>
+    <div id="today" v-if="controller.today">
+      <span> Ovo je today tab</span>
+      <today/>
+    </div>
+    <div id="reports" v-if="controller.reports">
+      <span> Ovo je reports tab</span>
+      <reports/>
+    </div>
+    <div id="settings" v-if="controller.settings">
+      <span> Ovo je settings tab</span>
+      <settings/>
+    </div>
+</div>
 </div>
 </template>
 
 <script>
 
-// import Services from '../services';
-import chart from './../components/chart-doughnut'
+// import Services from '../services/api';
+import { mapGetters, mapActions } from 'vuex';
+import today from '../components/today';
+import reports from '../components/reports';
+import settings from '../components/settings'
 export default {
   name: 'Admin',
   components: {
-    chart,
+    today,
+    reports,
+    settings
   },
     data: function()
     {
         return {
-             message: 
-            {
-            text: "",
-            duzina: 3
-            },
-            selected: 3,
-            settings : []
+          controller: {
+            today: true,
+            reports: false,
+            settings: false
+          }
         }
     },
+      // async send(){
+      //   this.getStatisticsAction(await Services.getReport(this.getToken,this.parseDate()))
+      //   console.log(this.parseDate());
+      //     },
+    computed: {
+      ...mapGetters({
+        getToken : 'get_token',
+      }),
+    },
+    methods: {
+      ...mapActions([ // calling mutation that will update token in vuex.
+        'getStatisticsAction'
+      ]),
+    }
+}
   //   async created()
   // {
   //   try{
@@ -53,7 +80,6 @@ export default {
   //      this.settings = await Services.getSettings();
   //   }
   //   }
-}
 </script>
 
 <style scoped>
@@ -62,8 +88,8 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  padding: auto 10%;
 }
-
 #container {
   display: flex;
   height: 75%;
@@ -79,6 +105,8 @@ export default {
     0 2.1px 2.1px rgba(32, 32, 32, 0.195),
     0 4.4px 4.4px rgba(32, 32, 32, 0.241),
     0 12px 12px rgba(32, 32, 32, 0.35);
+}
+#settings {
 }
 body {
   margin: 0;
@@ -124,14 +152,14 @@ body {
     width: 120px;
     border-bottom: none;
     height: 50px;
-    line-height: 50px;
+    line-height: 40px;
     font-size: 1.4em;
   }
  
   /* Option 1 - Display Inline */
   .nav li {
-    display: inline-block;
-    margin-right: 0px;
+    display: inline-flex;
+    flex-direction: column;
   }
  
   /* Options 2 - Float
@@ -147,6 +175,17 @@ body {
     background-color: #444;
   }
   */
+}
+.FormDate {
+  display: inline-flex;
+  position: relative;
+  justify-content: space-evenly;
+  background-color: transparent;
+  border-radius: 0.25em;
+  outline: none;
+  border-style: hidden;
+  padding: 2%;
+  outline: none;
 }
  .button
 {

@@ -1,7 +1,7 @@
 <template>
   <div class="background">
     <ul id="horizontal-list" v-bind:class="{none: !load}">
-      <li v-for="item in items" :key="item">
+      <li v-for="item in items" :key="item.id">
         <img v-bind:src="item.img" v-bind:alt="item.title" v-bind:class="emoticon" :id="item.id" @click="insertReaction">
       </li>
     </ul>
@@ -33,7 +33,7 @@ export default {
   loaded: 'get_loaded'}),
   },
   watch: {
-     emoticonNumber: function() {
+     load: function() {
         this.updateGUI(this.emoticon,this.vuex_items,this.emoticonNumber)
      }
   },
@@ -97,7 +97,12 @@ li img {
   width: 4vw;
   padding: 1vw;
   margin: 1vw;
+  animation-delay: 5s;
+  animation: fadeIn 2s linear;
 }
-
+@keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+}
 </style>
 

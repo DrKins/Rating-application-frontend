@@ -18,6 +18,7 @@ const state = {
         {title: 'yellowPack', img: require('../../assets/yellowPack/5.png'), id: 5, number:[3,4,5]},
       ],
       loaded: false,
+      statistics: []
 };
 
 const getters = {
@@ -28,7 +29,8 @@ const getters = {
     get_token : state => state.token,
     get_items : state => state.items,
     get_loaded : state => state.loaded,
-    get_level : state => state.level
+    get_level : state => state.level,
+    get_statistics : state => state.statistics
 };
 
 const actions ={
@@ -37,6 +39,9 @@ const actions ={
      },
     updateGUISettingsAction: function ({commit}, payload) {
         commit('mutateGUISettings', payload)
+    },
+    getStatisticsAction: function({commit}, payload) {
+        commit('mutateStatistics',payload)
     }
 };
 
@@ -49,11 +54,14 @@ const mutations = {
     mutateGUISettings(state, payload) {
          state.array = payload[0];
          console.log("ovo je payload za mutateGUISettings "+JSON.stringify(payload));
-         state.adminMessage = state.array.poruka;
-         state.emoticonNumber = state.array.brojEmotikona;
-         state.adminMessageduration = state.array.trajanjePoruke;
+         state.adminMessage = state.array.message;
+         state.emoticonNumber = state.array.emoticonCount;
+         state.adminMessageduration = state.array.messageDuration;
          state.loaded = true;
      },
+     mutateStatistics(state,payload){
+         state.statistics = payload;
+     }
 };
 
 export default {

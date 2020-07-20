@@ -73,7 +73,36 @@ class Services
                     reject(err);
                 })
             });
-        }         
+        } 
+// Getting statistics from server 
+    static getReport(token,date) {
+            return new Promise((resolve, reject) => {
+                console.log(token);
+                axios({
+                    method: 'GET',
+                    url: url+'reactions/countreactions/:'+date,
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                  })
+                       .then((response) => {
+                           resolve(response.data)
+                           console.log(response);
+                        })
+                       .catch((err) => reject(err));
+            });
+          }
+// Inserting reactions to database.
+static updateSettings(token,message, duration, emoticonCount)
+{
+    axios.post(url+'settings/setsettings', {
+        'message': message, 'duration' : duration, 'emoticonCount' : emoticonCount }, { headers: { Authorization: `Bearer ${token}`}})
+        .then(() => {
+          }, (error) => {
+            console.log(error);
+          });
+}         
+// Getting rea        
     // static ec(x) //COUNT(emoticon)
     // {
     //     return new Promise ((resolve,reject) => {

@@ -76,8 +76,8 @@ p {
 
 @keyframes animated-text{
   0%{width: 0;}
-  50%{width: 900px;}
-  75%{width: 900px;}
+  50%{width: 875px;}
+  75%{width: 875px;}
   100%{width: 0;}
 }
 
