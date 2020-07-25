@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     updateGUI(emoticon, array, number) {
-      console.log(number);
      var newArray = array.filter((item)=>{
         return item.title == emoticon && (item.number.includes(number));
       });
@@ -48,12 +47,12 @@ export default {
     async waitForSettings() {
       this.updateGUISettingsAction(await Services.getSettings(this.Token));
     },
-    insertReaction() {
-      this.emoji = event.target.id;
-      Services.insertReaction(this.emoji,this.Token)
-      setTimeout(()=>{
-        this.$router.push('/thanks');
-      },1000)
+     insertReaction() {
+       this.emoji = event.target.id;
+       Services.insertReaction(this.emoji,this.Token)
+       setTimeout(()=>{
+         this.$router.push('/thanks');
+     },1000)
     },
     loading(){
       setTimeout(()=>{

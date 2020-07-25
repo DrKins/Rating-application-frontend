@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const url = 'https://praksans.dyndns.org/api/';
+//const url = 'https://praksans.dyndns.org/api/';
+//const url = 'http://172.105.156.159:80/api/';
+const url = 'http://praksans.dyndns.org/api/';
 axios.defaults.withCredentials = false;
 class Services
 {
@@ -8,7 +10,6 @@ class Services
 // Picking up settings for updateGUI on Home.vue
     static getSettings(token) {
         return new Promise ((resolve,reject) => {
-            console.log(token);
             axios({
                 method: 'GET',
                 url: url+'settings/getsettings',
@@ -20,7 +21,6 @@ class Services
                 const data = res.data;
                 resolve(
                     resolve(data),
-                    console.log(data)
                 );
             })
             .catch((err)=> {
@@ -32,7 +32,7 @@ class Services
      static insertReaction(id,token)
          {
              axios.post(url+'reactions/insertreaction', {
-                 'id': id}, { headers: { Authorization: `Bearer ${token}`}})
+                 'emoticon': id}, { headers: { Authorization: `Bearer ${token}`}})
                  .then(() => {
                    }, (error) => {
                      console.log(error);
@@ -56,7 +56,6 @@ class Services
 // Getting reactions for charts.
     static countReactions(token) {
         return new Promise ((resolve,reject) => {
-                console.log(token);
                 axios({
                     method: 'GET',
                     url: url+'reactions/countreaction',
@@ -102,28 +101,6 @@ static updateSettings(token,message, duration, emoticonCount)
             console.log(error);
           });
 }         
-// Getting rea        
-    // static ec(x) //COUNT(emoticon)
-    // {
-    //     return new Promise ((resolve,reject) => {
-    //         axios.get('http://localhost:3000/ec/'+x).then((res) => {
-    //             const data = res.data;
-    //             resolve(
-    //                 data.filter( (id,date,emoticon)=> ({
-    //                     ...id,
-    //                     ...date,
-    //                     ...emoticon
-    //                 }
-    //                 )
-    //                 )
-    //             );
-    //         })
-    //         .catch((err)=> {
-    //             reject(err);
-    //         })
-            
-    //     });
-    // }
 }
 
 export default Services;

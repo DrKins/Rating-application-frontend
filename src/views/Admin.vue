@@ -3,9 +3,10 @@
   <div id="container">
     <div class="nav">
        <ul>
-        <li><a @click="controller.today = true; controller.reports = false; controller.settings = false;" :class="{active: controller.today}">Today</a></li>
-        <li><a @click="controller.reports = true; controller.today = false; controller.settings = false;" :class="{active: controller.reports}">Reports</a></li>
-        <li><a @click="controller.settings = true; controller.today = false; controller.reports = false;" :class="{active: controller.settings}">Settings</a></li>
+        <li><a @click="controller.today = true; controller.reports = false; controller.settings = false; controller.users =false;" :class="{active: controller.today}">Today</a></li>
+        <li><a @click="controller.reports = true; controller.today = false; controller.settings = false; controller.users =false;" :class="{active: controller.reports}">Reports</a></li>
+        <li><a @click="controller.settings = true; controller.today = false; controller.reports = false; controller.users =false;" :class="{active: controller.settings}">Settings</a></li>
+        <li v-if="getLevel === 3"><a @click="controller.users = true; controller.today = false; controller.reports = false; controller.settings = false;" :class="{active: controller.users}">Users</a></li>
       </ul>
     </div>
     <div id="today" v-if="controller.today">
@@ -20,6 +21,10 @@
       <span> Ovo je settings tab</span>
       <settings/>
     </div>
+    <div id="users" v-if="controller.users">
+      <span> Ovo je users tab</span>
+      <users/>
+    </div>
 </div>
 </div>
 </template>
@@ -30,13 +35,15 @@
 import { mapGetters, mapActions } from 'vuex';
 import today from '../components/today';
 import reports from '../components/reports';
-import settings from '../components/settings'
+import settings from '../components/settings';
+import users from '../components/users';
 export default {
   name: 'Admin',
   components: {
     today,
     reports,
-    settings
+    settings,
+    users
   },
     data: function()
     {
@@ -44,7 +51,8 @@ export default {
           controller: {
             today: true,
             reports: false,
-            settings: false
+            settings: false,
+            users: false
           }
         }
     },
@@ -55,6 +63,7 @@ export default {
     computed: {
       ...mapGetters({
         getToken : 'get_token',
+        getLevel : 'get_level'
       }),
     },
     methods: {

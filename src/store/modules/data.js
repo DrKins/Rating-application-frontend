@@ -4,7 +4,7 @@ const state = {
     emoticonNumber : 0,
     adminMessageduration : 0,
     token : 'nntoken',
-    level: 1,
+    level: 3,
     items: [
         {title: 'blackPack', img: require('../../assets/blackPack/1.png'), id: 1 , number: [3,4,5]},
         {title: 'blackPack', img: require('../../assets/blackPack/2.png'), id: 2, number: [5]},
@@ -42,10 +42,16 @@ const actions ={
     },
     getStatisticsAction: function({commit}, payload) {
         commit('mutateStatistics',payload)
+    },
+    "<ACTION_PREFIX><EVENT_NAME>"() {
+        // do something
     }
 };
 
 const mutations = {
+    "<MUTATION_PREFIX><EVENT_NAME>"() {
+        // do something
+    },
     mutateToken(state, payload) {
         state.token = payload.token
         state.level = payload.level
@@ -53,7 +59,6 @@ const mutations = {
      },
     mutateGUISettings(state, payload) {
          state.array = payload[0];
-         console.log("ovo je payload za mutateGUISettings "+JSON.stringify(payload));
          state.adminMessage = state.array.message;
          state.emoticonNumber = state.array.emoticonCount;
          state.adminMessageduration = state.array.messageDuration;
