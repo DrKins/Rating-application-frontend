@@ -12,6 +12,7 @@ beforeMount: function()
 },
 mounted: function()
 {
+  // Timout that will redirect to reactions page after admin Message duration is over.
    setTimeout(() => {
       this.$router.push('/user');
      }, this.get_adminMessageduration*1000);

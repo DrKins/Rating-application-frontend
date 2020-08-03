@@ -1,13 +1,10 @@
 import axios from "axios";
-
-//const url = 'https://praksans.dyndns.org/api/';
-//const url = 'http://172.105.156.159:80/api/';
 const url = 'http://praksans.dyndns.org/api/';
 axios.defaults.withCredentials = false;
 class Services
 {
 
-// Picking up settings for updateGUI on Home.vue
+// Picking up settings for updateGUI.
     static getSettings(token) {
         return new Promise ((resolve,reject) => {
             axios({
@@ -38,7 +35,7 @@ class Services
                      console.log(error);
                    });
          }
-// Login system.
+// Login system that sends username and password while gets as response session token.
     static login(username, password) 
     {
             return new Promise((resolve, reject) => {
@@ -76,7 +73,6 @@ class Services
 // Getting statistics from server 
     static getReport(token,date) {
             return new Promise((resolve, reject) => {
-                console.log(token);
                 axios({
                     method: 'GET',
                     url: url+'reactions/countreactions/:'+date,
@@ -91,7 +87,7 @@ class Services
                        .catch((err) => reject(err));
             });
           }
-// Inserting reactions to database.
+// Updating settings of company.
 static updateSettings(token,message, duration, emoticonCount)
 {
     axios.post(url+'settings/setsettings', {
@@ -100,7 +96,35 @@ static updateSettings(token,message, duration, emoticonCount)
           }, (error) => {
             console.log(error);
           });
-}         
+} 
+// Registration of new companies and users.
+static register(token,username,password,level,company)
+{
+    axios.post(url+'users/register', {"username":username,"password":password,"level":level,"company":company}, { headers: { Authorization: `Bearer ${token}`}})
+        .then(() => {
+          }, (error) => {
+            console.log(error);
+          });
+}
+// Getting list of all users.
+static getallUsers(token) {
+    return new Promise ((resolve,reject) => {
+            axios({
+                method: 'GET',
+                url: url+'users/getallusers',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+              })
+            .then((res) => {
+                const data = res.data;
+                resolve(data);
+            })
+            .catch((err)=> {
+                reject(err);
+            })
+        });
+    } 
 }
 
 export default Services;

@@ -11,7 +11,6 @@
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
-    "generate-password": "^1.5.1",
     "hchs-vue-charts": "^1.2.8",
     "socket.io-client": "^2.3.0",
     "store": "^2.0.12",

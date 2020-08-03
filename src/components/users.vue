@@ -1,28 +1,33 @@
 <template>
 <div class="background">
-  <div id="level1" class="space">
-    Lista svih korisnika aplikacije.
-        {{user.adminPassword}}
-        {{user.userPassword}}
-    </div>
-  <div id="level2" class="space">
-    Lista svih admina aplikacije.
-    </div>
-  <div id="createUser" class="space">
+  <!-- <div v-if="Level==3" id="list">
+    <div id="level1" class="space">
+      Lista svih korisnika aplikacije.
+      </div>
+    <div id="level2" class="space">
+      Lista svih admina aplikacije.
+      </div>
+  </div> -->
+  <div id="createUser" class="space"> 
     <form id="form">
-      <div class="input-el">
-        <span>Naziv kompanije</span>
+      <div v-if="Level==3" class="input-el">
+        <span>Company:</span>
         <input class="input" v-model="user.company" placeholder="Naziv firme">
       </div>
             <div class="input-el">
-        <span>Naziv administratora</span>
-        <input class="input" v-model="user.admin" placeholder="Naziv admina">
+        <span>Username:</span>
+        <input class="input" v-model="user.name" placeholder="Naziv korisnika">
       </div>
             <div class="input-el">
-        <span>Naziv korisnika</span>
-        <input class="input" v-model="user.user" placeholder="Naziv korisnika">
+        <span>Password:</span>
+        <input class="input" v-model="user.password"  type="password" placeholder='Password korisnika'>
       </div>
-        <button type="button" class="button" @click="password()">Create</button>
+      <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
+        <span v-bind:class="{ none: inactive}">{{loginText}}</span>
+        <span class="gg-close" v-bind:class="{ none: !fail}"></span>
+        <span class="gg-check" v-bind:class="{ none: !succ}"></span>
+      </button>
+    <span class="error" v-bind:class="{ none: err=== -1 || err=== 0}">{{errMsg}}</span>
     </form>
   </div>
 </div>
@@ -31,46 +36,76 @@
 
 <script>
 import { mapGetters } from "vuex";
-// import Services from '../services/api'
-var generator = require('generate-password');
+import Services from '../services/api'
 export default {
   name: 'users',
     data () {
     return {
-            user:{
+          user:{
               company: '',
-              admin: '',
-              adminPassword: 'no',
-              user: '',
-              userPassword: 'no'
+              name: '',
+              password: '',
           },
+          data:{
+             id: 0,
+             name: '',
+             lvl: 0,
+             company: ''
+          },
+          inactive: false,
+          loginText: 'Register',
+          succ: false,
+          fail: false,
+          err:0,
+          errMsg: "Došlo je do pogreške."  
     }
   },
    computed: {
     ...mapGetters({
-          Token: 'get_token'
+          Token: 'get_token',
+          Level: 'get_level'
     })
   },
   methods: {
-    // send(){
-    //   Services.updateSettings(this.Token,this.message.text,this.message.len,this.message.emojis);
-    //               console.log("Uspjesno update settings!");
-    //  },
-    password() {
-      let array = {};
-      for(let i=0;i<2;i++){
-          var temp = generator.generate({
-          length: 10,
-          numbers: true
-      });
-      array[`password${i}`] = temp;
+    // Method that checks admin level and sends right data to backend.
+    send(){
+      if(this.Level === 3) {
+        Services.register(this.Token,this.user.name,this.user.password,this.Level,this.user.company);
+        this.err = -1;
+        console.log("Company registration completed.");
+      } else {
+        Services.register(this.Token,this.user.name,this.user.password,this.Level);
+        this.err = -1;
+        console.log("User registration completed.");
+       }
+      },
+      // Fetches all clients of aplication only for Admin level 3.
+    async getData() {
+      await Services.getallUsers(this.Token);
+      console.log("Data is fetched.")
+    },
+    restartInactive() {
+      if(this.err === -1) {this.succ = true;}
+      else {this.fail = true; this.err=this.err+1;}
+      setTimeout(()=>{
+      this.succ=false;
+      this.fail=false;
+      this.inactive=false;
+      },2000);
+     }
+  },
+  watch: {
+     // Watching inactive variable - button spining.
+    inactive: function() {
+      if(this.inactive == true) {
+        this.loginText='';
+        setTimeout(this.restartInactive, 2500);
       }
-      console.log(array);
-      this.user.adminPassword = array.password0;
-      this.user.userPassword = array.password1;
-    }
+      else this.loginText='Register';
+     }
   },
   created(){
+    this.getData();
   }
 }
 </script>
@@ -87,7 +122,7 @@ export default {
   align-items: center;
 }
 #createUser {
-  background-color:rgba(35, 81, 112, 0.7);
+
 }
 .space {
   margin: auto 10vw;
@@ -125,6 +160,100 @@ input:focus{
 } 
 .button:hover {
   background-color: rgba(28, 110, 164, 0.7);
+}
+.buttonActive{
+  transition: ease-in 500ms;
+  padding: 10px;
+  width: 50px;
+  border: 2px inset rgb(28, 110, 164);
+  border-radius: 50px;
+  background-color: transparent;
+  color: white;
+  box-shadow: 1px 1px 10px rgba(32, 32, 32, 0.109),
+  1px 1px 10px rgba(32, 32, 32, 0.155),
+  1px 1px 10px rgba(32, 32, 32, 0.195),
+  1px 1px 10px rgba(32, 32, 32, 0.241),
+  1px 1px 10px rgba(32, 32, 32, 0.35);
+  cursor: default;
+  animation: loading-rotation 3s ease 500ms normal;
+  outline:none;
+}
+.gg-close {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 22px;
+    height: 22px;
+    border: 2px solid transparent;
+    border-radius: 40px;
+    margin:auto auto;
+}
+.gg-close::after,
+.gg-close::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background: currentColor;
+    transform: rotate(45deg);
+    border-radius: 5px;
+    top: 8px;
+    left: 1px
+}
+.gg-close::after {
+    transform: rotate(-45deg)
+}
+.gg-check {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 22px;
+    height: 22px;
+    border: 2px solid transparent;
+    border-radius: 100px;
+    margin: auto auto;
+    transition: ease-in 250ms;
+}
+.gg-check::after {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    left: 3px;
+    top: -1px;
+    width: 6px;
+    height: 10px;
+    border-width: 0 2px 2px 0;
+    border-style: solid;
+    transform-origin: bottom left;
+    transform: rotate(45deg)
+}
+.red {
+  background-color: #df775d;
+}
+.error{
+  transition: ease-in 500ms;
+  margin-top: 15%;
+  color:#df775d;
+  font-size: small;
+}
+.green {
+  background-color: #5ddf8f;
+}
+.none {
+  display:none;
+}
+@keyframes loading-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
 

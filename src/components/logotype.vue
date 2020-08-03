@@ -20,6 +20,7 @@
 
 
 <script>
+// This component is currently not in use.
 import { mapGetters } from "vuex";
 export default {
   name: 'logotype',
@@ -27,16 +28,11 @@ export default {
     return {
     }
   },
-  // napraviti u vuexu actions i mutation za loaded
   computed: {
     ...mapGetters({
           loaded: 'get_loaded'
     }),
   },
-  methods: {
-  },
-  mounted () {
-  }
 }
 </script>
 
@@ -48,9 +44,6 @@ export default {
   overflow: hidden;
   color:#FBEEC1;
 }
-.background{
-}
-
 
 </style>
 

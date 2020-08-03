@@ -3,12 +3,12 @@
 <form id="form">
   <div class="input-area">
     <span class="tag">Username:</span>
-    <input class="input-el" v-model="message.username" placeholder="">
+    <input class="input-el" v-model="message.username" placeholder="Username">
     <br>
   </div>
   <div class="input-area">
   <span class="tag">Password:</span>
-  <input class="input-el" type="password" v-model="message.password" placeholder=""><br>
+  <input class="input-el" type="password" v-model="message.password" placeholder="Password"><br>
   <br>
   </div>
    <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
@@ -16,8 +16,9 @@
      <span class="gg-close" v-bind:class="{ none: !fail}"></span>
      <span class="gg-check" v-bind:class="{ none: !succ}"></span>
      </button>
-    <span class="error" v-bind:class="{ none: err==0}">{{errMsg}}</span>
+    <span class="error" v-bind:class="{ none: err=== -1 || err=== 0}">{{errMsg}}</span>
 </form>
+
 </div>
 </template>
 
@@ -31,8 +32,8 @@ export default {
         return {
           message: 
             {
-            username: "Suad",
-            password: "password"
+            username: "",
+            password: ""
             },
           inactive: false,
           loginText: 'Login',
@@ -50,8 +51,10 @@ export default {
     },
     methods:
      {
+       // Method that sends data to backend and redirect to proper page.
       async send(){
         this.updateTokenAction(await Services.login(this.message.username,this.message.password))
+        this.err=-1;
         setTimeout(()=>{
           if(this.getLevel == 1 ) this.$router.push('/user')
           else this.$router.push('/admin')
@@ -60,17 +63,19 @@ export default {
      ...mapActions([ // calling mutation that will update token in vuex.
     'updateTokenAction'
      ]),
+     // Controll of spining animation of button.
      restartInactive() {
-        if((!this.message.password || 0 === this.message.password.length) || (!this.message.username || 0 === this.message.username.length)) {this.fail = true; this.err=this.err+1;}
-        else {this.succ = true; this.err=0}
+        if(this.err === -1) {this.succ = true;}
+        else {this.fail = true; this.err=this.err+1;}
         setTimeout(()=>{
         this.succ=false;
         this.fail=false;
         this.inactive=false;
         },2000);
-     }
+     },
    },
    watch: {
+     // Watching inactive variable - button spining.
      inactive: function() {
        if(this.inactive == true) {
         this.loginText='';
@@ -78,7 +83,7 @@ export default {
        }
        else this.loginText='Login';
      }
-   }
+   },
 }
 </script>
 

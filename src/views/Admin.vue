@@ -1,28 +1,25 @@
 <template>
 <div id="admin">
+  <span id="back" class="gg-close" @click="reloading"> </span>
   <div id="container">
     <div class="nav">
        <ul>
         <li><a @click="controller.today = true; controller.reports = false; controller.settings = false; controller.users =false;" :class="{active: controller.today}">Today</a></li>
         <li><a @click="controller.reports = true; controller.today = false; controller.settings = false; controller.users =false;" :class="{active: controller.reports}">Reports</a></li>
         <li><a @click="controller.settings = true; controller.today = false; controller.reports = false; controller.users =false;" :class="{active: controller.settings}">Settings</a></li>
-        <li v-if="getLevel === 3"><a @click="controller.users = true; controller.today = false; controller.reports = false; controller.settings = false;" :class="{active: controller.users}">Users</a></li>
+        <li v-if="getLevel != 1"><a @click="controller.users = true; controller.today = false; controller.reports = false; controller.settings = false;" :class="{active: controller.users}">Users</a></li>
       </ul>
     </div>
     <div id="today" v-if="controller.today">
-      <span> Ovo je today tab</span>
       <today/>
     </div>
     <div id="reports" v-if="controller.reports">
-      <span> Ovo je reports tab</span>
       <reports/>
     </div>
     <div id="settings" v-if="controller.settings">
-      <span> Ovo je settings tab</span>
       <settings/>
     </div>
     <div id="users" v-if="controller.users">
-      <span> Ovo je users tab</span>
       <users/>
     </div>
 </div>
@@ -32,7 +29,7 @@
 <script>
 
 // import Services from '../services/api';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters} from 'vuex';
 import today from '../components/today';
 import reports from '../components/reports';
 import settings from '../components/settings';
@@ -48,6 +45,7 @@ export default {
     data: function()
     {
         return {
+          // Controller object that has control variables for displaying purposes only.
           controller: {
             today: true,
             reports: false,
@@ -56,39 +54,20 @@ export default {
           }
         }
     },
-      // async send(){
-      //   this.getStatisticsAction(await Services.getReport(this.getToken,this.parseDate()))
-      //   console.log(this.parseDate());
-      //     },
+    methods: {
+      // Method that redirects from current page to login.
+     reloading() {
+       this.$router.push('/');
+       location.reload();
+     }
+    },
     computed: {
       ...mapGetters({
         getToken : 'get_token',
         getLevel : 'get_level'
       }),
     },
-    methods: {
-      ...mapActions([ // calling mutation that will update token in vuex.
-        'getStatisticsAction'
-      ]),
-    }
 }
-  //   async created()
-  // {
-  //   try{
-  //     this.settings = await Services.getSettings();
-  //   }
-  //   catch(err) {
-  //     this.error = err.message;
-  //   }
-  // },
-  //   methods:
-  //   {
-  //      async send()
-  //   {
-  //     await Services.updatePost(this.message.text,this.message.duzina,this.selected);
-  //      this.settings = await Services.getSettings();
-  //   }
-  //   }
 </script>
 
 <style scoped>
@@ -114,8 +93,6 @@ export default {
     0 2.1px 2.1px rgba(32, 32, 32, 0.195),
     0 4.4px 4.4px rgba(32, 32, 32, 0.241),
     0 12px 12px rgba(32, 32, 32, 0.35);
-}
-#settings {
 }
 body {
   margin: 0;
@@ -170,20 +147,6 @@ body {
     display: inline-flex;
     flex-direction: column;
   }
- 
-  /* Options 2 - Float
-  .nav li {
-    float: left;
-  }
-  .nav ul {
-    overflow: auto;
-    width: 600px;
-    margin: 0 auto;
-  }
-  .nav {
-    background-color: #444;
-  }
-  */
 }
 .FormDate {
   display: inline-flex;
@@ -218,5 +181,47 @@ body {
 }
 .none {
   display:none;
+}
+.gg-close {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 22px;
+    height: 22px;
+    border: 2px solid transparent;
+    border-radius: 40px;
+    margin:auto auto;
+}
+.gg-close::after,
+.gg-close::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background: currentColor;
+    transform: rotate(45deg);
+    border-radius: 5px;
+    top: 8px;
+    left: 1px
+}
+.gg-close::after {
+    transform: rotate(-45deg)
+}
+#back {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  border: 2px inset rgb(28, 110, 164);
+  border-radius: 50px;
+  background-color: transparent;
+  color: white;
+  box-shadow: 0 0.4px 0.4px rgba(32, 32, 32, 0.109),
+  0 1px 1px rgba(32, 32, 32, 0.155),
+  0 2.1px 2.1px rgba(32, 32, 32, 0.195),
+  0 4.4px 4.4px rgba(32, 32, 32, 0.241),
+  0 12px 12px rgba(32, 32, 32, 0.35);
 }
 </style>

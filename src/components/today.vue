@@ -6,7 +6,6 @@
 
 
 <script>
-import { mapGetters } from "vuex";
 import chart from './../components/chart-doughnut';
 export default {
   name: 'today',
@@ -17,14 +16,6 @@ export default {
     return {
     }
   },
-   computed: {
-    ...mapGetters({
-    })
-  },
-  methods: {
-  },
-  created(){
-  }
 }
 </script>
 

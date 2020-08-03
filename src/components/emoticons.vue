@@ -38,15 +38,18 @@ export default {
      }
   },
   methods: {
+    // Method that updates GUI after data from backed have been fetched.
     updateGUI(emoticon, array, number) {
      var newArray = array.filter((item)=>{
         return item.title == emoticon && (item.number.includes(number));
       });
       this.items = [...newArray];
     },
+    // Async function that will get live settings from backend and update it.
     async waitForSettings() {
       this.updateGUISettingsAction(await Services.getSettings(this.Token));
     },
+    // Method that sends client reaction to backend.
      insertReaction() {
        this.emoji = event.target.id;
        Services.insertReaction(this.emoji,this.Token)
@@ -54,22 +57,21 @@ export default {
          this.$router.push('/thanks');
      },1000)
     },
+    // Method made for animation purposes, smooth loading of page.
     loading(){
       setTimeout(()=>{
         this.load = true;
       },4000);
     },
-    ...mapActions([ // calling mutation that will update token in vuex.
+    ...mapActions([ // calling mutation that will update GUI Settings in vuex.
     'updateGUISettingsAction'
      ]),
   },
   created : function(){
+    // Calling methods of fetching updated settings and loading simultaneously.
     this.waitForSettings()
     this.loading()
   },
-  mounted(){
-  },
-
 }
 </script>
 
@@ -102,6 +104,19 @@ li img {
 @keyframes fadeIn {
     from { opacity: 0; }
       to { opacity: 1; }
+}
+@media screen and (max-width: 1024px) {
+  li img {
+  border-radius: 150px 150px 150px 150px;
+  -moz-border-radius: 100px 100px 100px 100px;
+  -webkit-border-radius: 100px 100px 100px 100px;
+  background-color: hsla(47, 88%, 87%, 0.065);
+  width: 6.5vw;
+  padding: 1.5vw;
+  margin: 3vw;
+  animation-delay: 5s;
+  animation: fadeIn 2s linear;
+}
 }
 </style>
 

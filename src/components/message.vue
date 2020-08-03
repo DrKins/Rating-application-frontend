@@ -22,6 +22,7 @@ export default {
     })
   },
   methods: {
+    // Method that smoothly loads text.
     loadingText(){
       setTimeout(()=>{
         this.load = true;
@@ -82,9 +83,26 @@ p {
 }
 
 @keyframes animated-cursor{
-  from{border-right-color: rgba(0, 132, 255, 0.75);}
+  from{border-right-color: transparent;}
   to{border-right-color: transparent;}
 }
 
+@media screen and (max-width: 1024px) {
+  p {
+    position: fixed;
+    top: 25vh;
+    left: 10vw;
+    font-size: 2.5vh;
+    animation: animated-text 15s steps(60) infinite both,
+             animated-cursor 500ms steps(25) infinite both;
+  }
+  
+  @keyframes animated-text{
+    0%{width: 0;}
+    50%{width: 75vw;}
+    75%{width: 75vw;}
+    100%{width: 0;}
+  }
+}
 </style>
 

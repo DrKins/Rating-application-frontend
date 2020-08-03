@@ -1,6 +1,5 @@
 <template>
-  <div id="card" :key="change">
-    {{change}}
+  <div id="card">
     <div class="card-img">
       <chartjs-doughnut
         :bind="true"
@@ -9,7 +8,6 @@
         :option="option"
       />
      </div>
-     <!-- <span class="line"></span> -->
      <div class="card-img">
       <chartjs-bar
         :bind="true"
@@ -26,25 +24,19 @@
  import { mapGetters } from 'vuex';
 export default {
   sockets: {
-    INSERTION(val) {
-      console.log('this method was fired by the socket server. '+val+this.change+' try!');
+    // Socket.io listening for server emit after client sends reaction.
+    INSERTION() {
       this.change = this.change + 1;
       this.statistics();
     }
   },
-    // hook(){
-    //   if(this.change > 0) {
-    //     this.$socket.$subscribe('INSERTION', payload => {
-    //     console.log(payload)
-    //     });
-    //   }
-    // },
   async created()
     {
+      // Calling statistics method when component is created.
       this.statistics();
-      // this.datasets[0].data = await Services.countReactions(this.Token);  
    },
   methods:{
+    // Method that updates current dataset of chart.
     async statistics() {
       this.datasets[0].data = await Services.countReactions(this.Token);      //installing data to chart
   },
