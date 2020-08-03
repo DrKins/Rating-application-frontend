@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = 'http://praksans.dyndns.org/api/';
+const url = 'http://192.168.1.71/api/';
 axios.defaults.withCredentials = false;
 class Services
 {
@@ -88,10 +88,10 @@ class Services
             });
           }
 // Updating settings of company.
-static updateSettings(token,message, duration, emoticonCount)
+static updateSettings(token,message, duration, emoticonCount,emoticonPack)
 {
     axios.post(url+'settings/setsettings', {
-        'message': message, 'duration' : duration, 'emoticonCount' : emoticonCount }, { headers: { Authorization: `Bearer ${token}`}})
+        'message': message, 'duration' : duration, 'emoticonCount' : emoticonCount,'emoticonPack':emoticonPack }, { headers: { Authorization: `Bearer ${token}`}})
         .then(() => {
           }, (error) => {
             console.log(error);
@@ -100,7 +100,7 @@ static updateSettings(token,message, duration, emoticonCount)
 // Registration of new companies and users.
 static register(token,username,password,level,company)
 {
-    axios.post(url+'users/register', {"username":username,"password":password,"level":level,"company":company}, { headers: { Authorization: `Bearer ${token}`}})
+    axios.post(url+'users/register', {"name":username,"password":password,"lvl":level,"company":company}, { headers: { Authorization: `Bearer ${token}`}})
         .then(() => {
           }, (error) => {
             console.log(error);

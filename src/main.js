@@ -22,7 +22,7 @@ Vue.use(window.VueCharts);
 Vue.config.productionTip = false;
 
 // Socket.io configuration
-const socket = io('http://praksans.dyndns.org',{transports: ['websocket']});
+const socket = io('http://192.168.1.71',{transports: ['websocket']});
 Vue.use(VueSocketIOExt, socket);
 
 new Vue({

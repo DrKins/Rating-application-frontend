@@ -17,8 +17,8 @@ const state = {
         {title: 'yellowPack', img: require('../../assets/yellowPack/4.png'), id: 4, number:[4,5]},
         {title: 'yellowPack', img: require('../../assets/yellowPack/5.png'), id: 5, number:[3,4,5]},
       ],
-      loaded: false,
-      statistics: []
+      users:[],
+      statistics: [],
 };
 
 const getters = {
@@ -28,9 +28,9 @@ const getters = {
     get_adminMessageduration : state => state.adminMessageduration,
     get_token : state => state.token,
     get_items : state => state.items,
-    get_loaded : state => state.loaded,
+    get_users : state => state.users,
     get_level : state => state.level,
-    get_statistics : state => state.statistics
+    get_statistics : state => state.statistics,
 };
 
 const actions ={
@@ -46,6 +46,9 @@ const actions ={
     getStatisticsAction: function({commit}, payload) {
         commit('mutateStatistics',payload)
     },
+    getUsers: function({commit},payload) {
+        commit('mutateSettings',payload);
+    }
 };
 
 const mutations = {
@@ -66,7 +69,10 @@ const mutations = {
     // Mutation of reports statistics.
      mutateStatistics(state,payload){
          state.statistics = payload;
-     }
+     },
+    mutateSettings(state,payload){
+        state.users = payload;
+    }
 };
 
 export default {

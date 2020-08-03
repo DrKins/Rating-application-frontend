@@ -1,13 +1,17 @@
 <template>
 <div class="background">
-  <!-- <div v-if="Level==3" id="list">
-    <div id="level1" class="space">
-      Lista svih korisnika aplikacije.
-      </div>
-    <div id="level2" class="space">
-      Lista svih admina aplikacije.
-      </div>
-  </div> -->
+  <div v-if="Level==3" id="list">
+  <table id="allUsers">
+    <th>Name</th>
+    <th>Level</th>
+    <th>Company</th>
+    <tr class="test" v-for="item in Users" :key="item.id">
+      <td>{{ item.name }}</td>
+      <td>{{ item.lvl}}</td>
+      <td>{{ item.company}}</td>
+    </tr>
+  </table>
+  </div> 
   <div id="createUser" class="space"> 
     <form id="form">
       <div v-if="Level==3" class="input-el">
@@ -35,7 +39,7 @@
 
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Services from '../services/api'
 export default {
   name: 'users',
@@ -49,7 +53,7 @@ export default {
           data:{
              id: 0,
              name: '',
-             lvl: 0,
+             lvl: 2,
              company: ''
           },
           inactive: false,
@@ -63,25 +67,26 @@ export default {
    computed: {
     ...mapGetters({
           Token: 'get_token',
-          Level: 'get_level'
+          Level: 'get_level',
+          Users: 'get_users'
     })
   },
   methods: {
     // Method that checks admin level and sends right data to backend.
     send(){
       if(this.Level === 3) {
-        Services.register(this.Token,this.user.name,this.user.password,this.Level,this.user.company);
+        Services.register(this.Token,this.user.name,this.user.password,this.data.lvl,this.user.company);
         this.err = -1;
         console.log("Company registration completed.");
       } else {
-        Services.register(this.Token,this.user.name,this.user.password,this.Level);
+        Services.register(this.Token,this.user.name,this.user.password,this.data.lvl);
         this.err = -1;
         console.log("User registration completed.");
        }
       },
       // Fetches all clients of aplication only for Admin level 3.
     async getData() {
-      await Services.getallUsers(this.Token);
+      this.getUsers(await Services.getallUsers(this.Token));
       console.log("Data is fetched.")
     },
     restartInactive() {
@@ -92,7 +97,10 @@ export default {
       this.fail=false;
       this.inactive=false;
       },2000);
-     }
+     },
+      ...mapActions([ // calling mutation that will update users in vuex.
+    'getUsers'
+     ]),
   },
   watch: {
      // Watching inactive variable - button spining.
@@ -121,9 +129,6 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-#createUser {
-
-}
 .space {
   margin: auto 10vw;
 }
@@ -131,14 +136,16 @@ export default {
   margin: 25% auto;
 }
 .input {
-  color: grey;
+  color: white;
   background-color: transparent;
   border-style: hidden;
+  border-bottom: 1px solid white;
+  margin-left: 2vw;
 }
 input:focus{
   outline: none;
-  color:grey;
-  border-bottom: 1px solid grey;
+  color:rgba(170, 233, 219, 0.842);
+  border-bottom: 1px solid rgba(140, 206, 229, 0.842);
   transition: ease-in 100ms;
 }
 .button
@@ -246,6 +253,17 @@ input:focus{
 }
 .none {
   display:none;
+}
+#allUsers{
+  text-decoration: none; 
+}
+td{
+  text-decoration: none; 
+  border: 1px solid rgba(140, 206, 229, 0.842); 
+  padding: 0.1vw;
+}
+th{
+  padding: 0.5vw;
 }
 @keyframes loading-rotation {
   0% {

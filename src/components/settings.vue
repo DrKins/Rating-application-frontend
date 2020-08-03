@@ -54,7 +54,8 @@ export default {
     succ: false,
     fail: false,
     err:0,
-    errMsg: "Došlo je do pogreške."          
+    errMsg: "Došlo je do pogreške.",
+    emoPack: "yellowPack"          
     }
   },
    computed: {
@@ -65,7 +66,7 @@ export default {
   methods: {
     // Method that sends new settings of company to backend.
     send(){
-      Services.updateSettings(this.Token,this.message.text,this.message.len,this.message.emojis);
+      Services.updateSettings(this.Token,this.message.text,this.message.len,this.message.emojis,this.emoPack);
       this.err=-1;
      },
     // Method that will restart animation after fail or success.
@@ -107,13 +108,15 @@ export default {
   margin: 25% auto;
 }
 .input {
-  color: grey;
+  color: white;
   background-color: transparent;
   border-style: hidden;
+  border-bottom: 1px solid white;
+  margin-left: 2vw;
 }
 input:focus{
   outline: none;
-  color:grey;
+  color:rgba(170, 233, 219, 0.842);
   border-bottom: 1px solid grey;
   transition: ease-in 100ms;
 }
