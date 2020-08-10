@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-    <div class="logotype" v-bind:class=" {bounceForward: loaded}">
+    <div class="logotype">
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"  viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve" height="50" width="50">
       <polygon fill="#FFCA28" points="24,4 31,17 45,19 35,29 37,44 24,37 11,44 13,29 3,19 17,17 "/>
       <g>
@@ -11,8 +11,6 @@
         <polygon fill="#F9A825" points="3,19 24,25 17,17 &#9;"/>
       </g>
     </svg>
-    <p class="title">NSoft</p>
-    <p class="txt">Rating Application</p>
     </div>
   
   </div>
@@ -21,7 +19,6 @@
 
 <script>
 // This component is currently not in use.
-import { mapGetters } from "vuex";
 export default {
   name: 'logotype',
     data () {
@@ -29,9 +26,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-          loaded: 'get_loaded'
-    }),
   },
 }
 </script>

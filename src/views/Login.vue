@@ -98,21 +98,23 @@ export default {
 {
   --default-color: white;
   --border-bottom-color: white;
-  margin: 12px 0;
-}
+  padding-bottom: 4vh;
+  margin-bottom:2vh;
+  margin-top:1vh;
+  }
 #form {
   display: flex;
-  height: 36%;
+  height: 41vh;
   flex-direction: column;
   align-items: center;
-  padding: 50px 40px;
+  padding: 5vw;
   color: white;
   background-color:rgba(30,41,59,0.5);
   border-radius: 10px;
   box-shadow: 0 0.4px 0.4px rgba(32, 32, 32, 0.109),
     0 1px 1px rgba(32, 32, 32, 0.155),
     0 2.1px 2.1px rgba(32, 32, 32, 0.195),
-    0 4.4px 4.4px rgba(32, 32, 32, 0.241),
+    0 4.4px 4.4px rgba(167, 165, 165, 0.241),
     0 12px 12px rgba(32, 32, 32, 0.35);
 }
 .tag {
@@ -142,6 +144,7 @@ textarea:focus, input:focus{
 }
  .button
 {
+  margin-top: -5vh;
   transition: ease-in 250ms;
   padding: 10px;
   width: 100px;
@@ -236,7 +239,7 @@ textarea:focus, input:focus{
 }
 .error{
   transition: ease-in 500ms;
-  margin-top: 15%;
+  margin-top: 1vh;
   color:#df775d;
   font-size: small;
 }
@@ -253,5 +256,77 @@ textarea:focus, input:focus{
   100% {
     transform: rotate(360deg);
   }
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    #form {
+      height: 25vh;
+    }
+    .input-area
+    {
+      --default-color: white;
+      --border-bottom-color: white;
+      padding-bottom: 4vh;
+      margin-bottom:2vh;
+      margin-top:-1vh;
+      }
+     .button
+    {
+      margin-top: -5vh;
+      transition: ease-in 250ms;
+      padding: 10px;
+      width: 100px;
+      height: 50px;
+      border: 2px inset rgb(28, 110, 164);
+      border-radius: 50px;
+      background-color: transparent;
+      color: white;
+      box-shadow: 0 0.4px 0.4px rgba(32, 32, 32, 0.109),
+      0 1px 1px rgba(32, 32, 32, 0.155),
+      0 2.1px 2.1px rgba(32, 32, 32, 0.195),
+      0 4.4px 4.4px rgba(32, 32, 32, 0.241),
+      0 12px 12px rgba(32, 32, 32, 0.35);
+      outline:none;
+    } 
+    .error{
+      transition: ease-in 500ms;
+      margin-top: 1vh;
+      color:#df775d;
+      font-size: small;
+    }
+.red {
+  background-color: #df775d;
+}
+.error{
+  transition: ease-in 500ms;
+  margin-top: 1vh;
+  color:#df775d;
+  font-size: small;
+}
+.green {
+  background-color: #5ddf8f;
+}
+.none {
+  display:none;
+}
+.button:hover {
+  background-color: rgba(28, 110, 164, 0.7);
+}
+.buttonActive{
+  transition: ease-in 500ms;
+  padding: 10px;
+  width: 50px;
+  border: 2px inset rgb(28, 110, 164);
+  border-radius: 50px;
+  background-color: transparent;
+  color: white;
+  box-shadow: 1px 1px 10px rgba(32, 32, 32, 0.109),
+  1px 1px 10px rgba(32, 32, 32, 0.155),
+  1px 1px 10px rgba(32, 32, 32, 0.195),
+  1px 1px 10px rgba(32, 32, 32, 0.241),
+  1px 1px 10px rgba(32, 32, 32, 0.35);
+  cursor: default;
+  animation: loading-rotation 3s ease 500ms normal;
+  outline:none;
+}
 }
 </style>

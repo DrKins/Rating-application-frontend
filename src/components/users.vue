@@ -1,6 +1,6 @@
 <template>
 <div class="background">
-  <div v-if="Level==3" id="list">
+  <div v-if="Level!=1" id="list">
   <table id="allUsers">
     <th>Name</th>
     <th>Level</th>
@@ -18,12 +18,18 @@
         <span>Company:</span>
         <input class="input" v-model="user.company" placeholder="Naziv firme">
       </div>
+        <span v-if="Level==3">Level:</span>
+            <select v-if="Level==3" class="input" v-model="user.lvl">
+            <option disabled value=""></option>
+            <option>1</option>
+            <option>2</option>
+          </select>
             <div class="input-el">
-        <span>Username:</span>
+        <span >Username:</span>
         <input class="input" v-model="user.name" placeholder="Naziv korisnika">
       </div>
-            <div class="input-el">
-        <span>Password:</span>
+        <div class="input-el">
+        <span >Password:</span>
         <input class="input" v-model="user.password"  type="password" placeholder='Password korisnika'>
       </div>
       <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
@@ -49,12 +55,7 @@ export default {
               company: '',
               name: '',
               password: '',
-          },
-          data:{
-             id: 0,
-             name: '',
-             lvl: 2,
-             company: ''
+              lvl:2
           },
           inactive: false,
           loginText: 'Register',

@@ -1,5 +1,6 @@
 import axios from "axios";
-const url = 'http://192.168.1.71/api/';
+//const url = 'http://praksans.dyndns.org/api/';
+const url = 'http://192.168.1.112/api/';
 axios.defaults.withCredentials = false;
 class Services
 {
@@ -91,7 +92,7 @@ class Services
 static updateSettings(token,message, duration, emoticonCount,emoticonPack)
 {
     axios.post(url+'settings/setsettings', {
-        'message': message, 'duration' : duration, 'emoticonCount' : emoticonCount,'emoticonPack':emoticonPack }, { headers: { Authorization: `Bearer ${token}`}})
+        'message': message, 'messageDuration' : duration, 'emoticonCount' : emoticonCount,'emoticonPack':emoticonPack }, { headers: { Authorization: `Bearer ${token}`}})
         .then(() => {
           }, (error) => {
             console.log(error);
@@ -124,7 +125,26 @@ static getallUsers(token) {
                 reject(err);
             })
         });
-    } 
+    }
+// Getting reactions bydate.
+static Bydate(token,date) {
+    return new Promise ((resolve,reject) => {
+            axios({
+                method: 'GET',
+                url: url+'reactions/bydate/:'+date,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+              })
+            .then((response) => {
+                console.log(response);
+                resolve(response.data)
+            })
+            .catch((err)=> {
+                reject(err);
+            })
+        });
+    }  
 }
 
 export default Services;

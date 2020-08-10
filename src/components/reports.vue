@@ -1,23 +1,9 @@
 <template>
   <div class="background">
     <div class="searchArea">
-       <input
-      class="input-el"
-      type="number"
-      v-model="date.day"
-      placeholder="dd">
-    <span class="tag">/</span>
-    <input
-      class="input-el"
-      type="number"
-      v-model="date.month"
-      placeholder="mm">
-    <span class="tag">/</span>
-    <input
-      class="input-el"
-      type="number"
-      v-model="date.year"
-      placeholder="yyyy">
+      <DatePicker
+      v-model="date" />
+      <div class="buttonArea"></div>
     <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
      <span v-bind:class="{ none: inactive}">{{loginText}}</span>
      <span class="gg-close" v-bind:class="{ none: !fail}"></span>
@@ -36,19 +22,17 @@
 import Services from './../services/api'
 import { mapGetters,mapActions } from "vuex";
 import chart from './../components/chart-reports';
+import DatePicker from 'v-calendar/lib/components/date-picker.umd';
 export default {
   name: 'reports',
   components: {
     chart,
+    DatePicker
   },
     data () {
     return {
       search: true,
-      date: {
-        day: 25,
-        month: 6,
-        year: 2020
-      },
+      date: new Date("2020-08-05"),
       inactive: false,
       loginText: 'Search',
       succ: false,
@@ -66,11 +50,12 @@ export default {
   methods: {
     // Method that parse date before it is being processed to backend.
      parseDate: function(){
-      this.date.month = ('0' + this.date.month).slice(-2)
-      this.date.day = ('0' + this.date.day).slice(-2)
-      let date = ""+this.date.year+this.date.month+this.date.day;
-      console.log(parseInt(date),typeof(date))
-      return date;
+      const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' }) 
+      const [{ value: month },,{ value: day },,{ value: year }] = dateTimeFormat .formatToParts(this.date) 
+      let date = ""+year+month+day;
+      // let date = ""+this.date.year+this.date.month+this.date.day;
+      // console.log(parseInt(date),typeof(date))
+       return date; 
       },
        ...mapActions([ // calling mutation that will update stats in vuex.
         'getStatisticsAction'

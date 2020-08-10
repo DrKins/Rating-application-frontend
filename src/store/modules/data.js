@@ -4,7 +4,7 @@ const state = {
     emoticonNumber : 0,
     adminMessageduration : 0,
     token : 'nntoken',
-    level: 3,
+    level: {user:'troll',level:2},
     items: [
         {title: 'blackPack', img: require('../../assets/blackPack/1.png'), id: 1 , number: [3,4,5]},
         {title: 'blackPack', img: require('../../assets/blackPack/2.png'), id: 2, number: [5]},
@@ -18,7 +18,11 @@ const state = {
         {title: 'yellowPack', img: require('../../assets/yellowPack/5.png'), id: 5, number:[3,4,5]},
       ],
       users:[],
-      statistics: [],
+      statistics: {
+          temp:[0,1,1,4,1],
+          emotc:5,
+      },
+      statisticsHour: {},
 };
 
 const getters = {
@@ -31,6 +35,7 @@ const getters = {
     get_users : state => state.users,
     get_level : state => state.level,
     get_statistics : state => state.statistics,
+    get_statisticsHour : state => state.statisticsHour
 };
 
 const actions ={
@@ -48,6 +53,9 @@ const actions ={
     },
     getUsers: function({commit},payload) {
         commit('mutateSettings',payload);
+    },
+    getStatisticsHourAction: function({commit},payload) {
+        commit('mutateStatisticsHour',payload);
     }
 };
 
@@ -55,8 +63,8 @@ const mutations = {
     // Mutation for token and level of user.
     mutateToken(state, payload) {
         state.token = payload.token
-        state.level = payload.level
-        state.loaded = false
+        state.level.level = payload.level
+        state.level.user = payload.name
      },
     // Mutation of GUI settings.
     mutateGUISettings(state, payload) {
@@ -72,6 +80,9 @@ const mutations = {
      },
     mutateSettings(state,payload){
         state.users = payload;
+    },
+    mutateStatisticsHour(state,payload){
+        state.statisticsHour = payload;
     }
 };
 
