@@ -23,13 +23,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 *{
+  margin:0;
+  padding:0;
   overflow: hidden;
   color:#FBEEC1
 }
-.background {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.background{
+  height: 70vh;
 }
 </style>
 

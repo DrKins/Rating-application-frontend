@@ -1,37 +1,35 @@
 <template>
 <div class="background">
-  <div id="updateSettings">
     <form id="form">
-  <div class="input-el">
-    <span>Poruka</span>
-    <input class="input" v-model="message.text" placeholder="Unesite poruku">
-  </div>
-  <div class="input-el">
-  <span>Trajanje poruke</span>
-    <select class="input" v-model="message.len">
-      <option disabled value=""></option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select><br>
-  </div>
-  <div class="input-el">
-  <span>Broj emotikona</span>
-    <select class="input" v-model="message.emojis">
-      <option disabled value=""></option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select><br>
-  </div>
-      <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
-     <span v-bind:class="{ none: inactive}">{{loginText}}</span>
-     <span class="gg-close" v-bind:class="{ none: !fail}"></span>
-     <span class="gg-check" v-bind:class="{ none: !succ}"></span>
-     </button>
-    <span class="error" v-bind:class="{ none: err=== -1 || err=== 0}">{{errMsg}}</span>
-</form>
-  </div>
+      <div class="input-el input-msg">
+        <span>Client message:</span>
+        <input class="input" v-model="message.text" placeholder="Enter message">
+      </div>
+      <div class="input-el">
+        <span>Duration of message in seconds:</span>
+        <select class="select-css" v-model="message.len">
+          <option disabled value=""></option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select><br>
+      </div>
+      <div class="input-el">
+        <span>Number of emoticons that are showed: </span>
+        <select class="select-css" v-model="message.emojis">
+          <option disabled value=""></option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select><br>
+      </div>
+        <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
+          <span v-bind:class="{ none: inactive}">{{loginText}}</span>
+          <span class="gg-close" v-bind:class="{ none: !fail}"></span>
+          <span class="gg-check" v-bind:class="{ none: !succ}"></span>
+        </button>
+        <span class="error" v-bind:class="{ none: err=== -1 || err=== 0}">{{errMsg}}</span>
+    </form>
 </div>
 </template>
 
@@ -101,18 +99,26 @@ export default {
 }
 .background {
   display: flex;
-  justify-content: stretch;
-  align-items: center;
+  justify-content: center;
+  height: 70vh;
 }
 .input-el {
-  margin: 25% auto;
+  display: flex;
+  margin: 15% auto;
 }
+.input-msg {
+  padding: 1rem 0rem 1.5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(41, 44, 44, 0.842);
+  background-color: rgba(32, 32, 32, 0.109);
+
+  }
 .input {
   color: white;
   background-color: transparent;
   border-style: hidden;
   border-bottom: 1px solid white;
-  margin-left: 2vw;
+  margin-left: 1vw;
 }
 input:focus{
   outline: none;
@@ -120,6 +126,73 @@ input:focus{
   border-bottom: 1px solid grey;
   transition: ease-in 100ms;
 }
+
+/* Select css */
+.select-css {
+	display: block;
+	font-size: 16px;
+	font-family: sans-serif;
+	font-weight: 700;
+	color: #444;
+	line-height: 1.3;
+	padding: .1em .1em .1em .1em;
+	max-width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+  margin-left: 1vw;
+	border: 1px solid #aaa;
+	box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+	border-radius: .5em;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: #fff;
+	background-repeat: no-repeat, repeat;
+	background-position: right .7em top 50%, 0 0;
+	background-size: .65em auto, 100%;
+}
+.select-css::-ms-expand {
+	display: none;
+}
+.select-css:hover {
+	border-color: #888;
+}
+.select-css:focus {
+	border-color: #aaa;
+	color: #222;
+	outline: none;
+}
+.select-css option {
+	font-weight:normal;
+}
+
+/* plus icon */
+ .gg-math-plus,
+.gg-math-plus::after {
+ display: block;
+ box-sizing: border-box;
+ background: currentColor;
+ border-radius: 10px
+}
+
+.gg-math-plus {
+ margin-top: -2px;
+ position: relative;
+ transform: scale(var(--ggs,1));
+ width: 16px;
+ height: 2px
+}
+
+.gg-math-plus::after {
+ content: "";
+ position: absolute;
+ width: 2px;
+ height: 16px;
+ top: -7px;
+ left: 7px
+} 
+
+/* Button css */
 .button
 {
   padding: 10px;
@@ -232,6 +305,14 @@ input:focus{
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@media screen and (max-height: 450px) and (orientation: landscape){
+  .background{
+    font-size: 0.7rem;
+  }
+  .input-el{
+    margin: 7% auto;
   }
 }
 </style>

@@ -4,7 +4,7 @@ const state = {
     emoticonNumber : 0,
     adminMessageduration : 0,
     token : 'nntoken',
-    level: {user:'troll',level:2},
+    level: {user:'troll',level:2,company:''},
     items: [
         {title: 'blackPack', img: require('../../assets/blackPack/1.png'), id: 1 , number: [3,4,5]},
         {title: 'blackPack', img: require('../../assets/blackPack/2.png'), id: 2, number: [5]},
@@ -51,9 +51,11 @@ const actions ={
     getStatisticsAction: function({commit}, payload) {
         commit('mutateStatistics',payload)
     },
+    // Action of getting all users from backend.
     getUsers: function({commit},payload) {
         commit('mutateSettings',payload);
     },
+    // Action of getting hour stats from backend.
     getStatisticsHourAction: function({commit},payload) {
         commit('mutateStatisticsHour',payload);
     }
@@ -65,6 +67,7 @@ const mutations = {
         state.token = payload.token
         state.level.level = payload.level
         state.level.user = payload.name
+        state.level.company = payload.company
      },
     // Mutation of GUI settings.
     mutateGUISettings(state, payload) {
@@ -78,11 +81,13 @@ const mutations = {
      mutateStatistics(state,payload){
          state.statistics = payload;
      },
+    // Mutation of getting all users from backend.
     mutateSettings(state,payload){
         state.users = payload;
     },
+    // Mutation of getting hour stats from backend.
     mutateStatisticsHour(state,payload){
-        state.statisticsHour = payload;
+    state.statisticsHour = payload.temp;
     }
 };
 

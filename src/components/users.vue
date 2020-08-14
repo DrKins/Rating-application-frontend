@@ -1,6 +1,6 @@
 <template>
-<div class="background">
-  <div v-if="Level!=1" id="list">
+<div id="container1">
+  <div v-if="Level!=1" id="column1">
   <table id="allUsers">
     <th>Name</th>
     <th>Level</th>
@@ -12,32 +12,32 @@
     </tr>
   </table>
   </div> 
-  <div id="createUser" class="space"> 
+  <div id="column2"> 
     <form id="form">
       <div v-if="Level==3" class="input-el">
         <span>Company:</span>
-        <input class="input" v-model="user.company" placeholder="Naziv firme">
+        <input class="input" v-model="user.company" placeholder="Company name">
       </div>
         <span v-if="Level==3">Level:</span>
-            <select v-if="Level==3" class="input" v-model="user.lvl">
+            <select v-if="Level==3" class="select-css" v-model="user.lvl">
             <option disabled value=""></option>
             <option>1</option>
             <option>2</option>
           </select>
             <div class="input-el">
         <span >Username:</span>
-        <input class="input" v-model="user.name" placeholder="Naziv korisnika">
+        <input class="input" v-model="user.name" placeholder="Enter username">
       </div>
         <div class="input-el">
         <span >Password:</span>
-        <input class="input" v-model="user.password"  type="password" placeholder='Password korisnika'>
+        <input class="input" v-model="user.password"  type="password" placeholder='Enter password'>
       </div>
       <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
         <span v-bind:class="{ none: inactive}">{{loginText}}</span>
         <span class="gg-close" v-bind:class="{ none: !fail}"></span>
         <span class="gg-check" v-bind:class="{ none: !succ}"></span>
       </button>
-    <span class="error" v-bind:class="{ none: err=== -1 || err=== 0}">{{errMsg}}</span>
+      <span class="error" v-bind:class="{ none: err=== -1 || err=== 0}">{{errMsg}}</span>
     </form>
   </div>
 </div>
@@ -78,11 +78,9 @@ export default {
       if(this.Level === 3) {
         Services.register(this.Token,this.user.name,this.user.password,this.data.lvl,this.user.company);
         this.err = -1;
-        console.log("Company registration completed.");
       } else {
         Services.register(this.Token,this.user.name,this.user.password,this.data.lvl);
         this.err = -1;
-        console.log("User registration completed.");
        }
       },
       // Fetches all clients of aplication only for Admin level 3.
@@ -125,16 +123,27 @@ export default {
 *{
   overflow: hidden;
 }
-.background {
+#container1 {
+  height: inherit;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: center;
+  height: 70vh;
 }
-.space {
-  margin: auto 10vw;
+#column1{
+  align-self: center;
+}
+#column2{
+  background-color: rgba(22, 65, 82, 0.3);
+  border-radius: 10px;
+  padding: 2em;
+  margin-top: 2vh;
+  align-self: center;
 }
 .input-el {
-  margin: 25% auto;
+  display: flex;
+  margin:1vh auto;
 }
 .input {
   color: white;
@@ -149,6 +158,47 @@ input:focus{
   border-bottom: 1px solid rgba(140, 206, 229, 0.842);
   transition: ease-in 100ms;
 }
+
+/* Select css */
+.select-css {
+	display: block;
+	font-size: 16px;
+	font-family: sans-serif;
+	font-weight: 700;
+	color: #444;
+	line-height: 1.3;
+	padding: .1em .1em .1em .1em;
+	max-width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+  margin-left: 1vw;
+	border: 1px solid #aaa;
+	box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+	border-radius: .5em;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: #fff;
+	background-repeat: no-repeat, repeat;
+	background-position: right .7em top 50%, 0 0;
+	background-size: .65em auto, 100%;
+}
+.select-css::-ms-expand {
+	display: none;
+}
+.select-css:hover {
+	border-color: #888;
+}
+.select-css:focus {
+	border-color: #aaa;
+	color: #222;
+	outline: none;
+}
+.select-css option {
+	font-weight:normal;
+}
+
+/* button css */
 .button
 {
   padding: 10px;
@@ -158,13 +208,8 @@ input:focus{
   border-radius: 50px;
   background-color: transparent;
   color: white;
-  box-shadow: 0 0.4px 0.4px rgba(32, 32, 32, 0.109),
-  0 1px 1px rgba(32, 32, 32, 0.155),
-  0 2.1px 2.1px rgba(32, 32, 32, 0.195),
-  0 4.4px 4.4px rgba(32, 32, 32, 0.241),
-  0 5px 5px rgba(32, 32, 32, 0.35);
   outline:none;
-  margin: 1vh 5vh;
+  margin-top: 2vh;
 } 
 .button:hover {
   background-color: rgba(28, 110, 164, 0.7);
@@ -177,11 +222,6 @@ input:focus{
   border-radius: 50px;
   background-color: transparent;
   color: white;
-  box-shadow: 1px 1px 10px rgba(32, 32, 32, 0.109),
-  1px 1px 10px rgba(32, 32, 32, 0.155),
-  1px 1px 10px rgba(32, 32, 32, 0.195),
-  1px 1px 10px rgba(32, 32, 32, 0.241),
-  1px 1px 10px rgba(32, 32, 32, 0.35);
   cursor: default;
   animation: loading-rotation 3s ease 500ms normal;
   outline:none;
@@ -272,6 +312,12 @@ th{
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@media screen and (max-width: 600px){
+  #container1{
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>

@@ -56,7 +56,7 @@ export default {
         this.updateTokenAction(await Services.login(this.message.username,this.message.password))
         this.err=-1;
         setTimeout(()=>{
-          if(this.getLevel == 1 ) this.$router.push('/user')
+          if(this.getLevel.level == 1 ) this.$router.push('/user')
           else this.$router.push('/admin')
         }, 2500);
      },

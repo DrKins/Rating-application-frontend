@@ -13,8 +13,8 @@
     </div>
   <div id="container">
     <div id="message">
-      <div id="greet">Dobrodošli <b>{{getLevel.user}}</b> - Nalazite se u Admin panelu kompanije <b>{{getLevel.user}}</b>.</div>
-      <div id="date">{{this.date.date}}{{' '}}{{this.date.hours}}</div>
+      <div id="greet">Welcome <b>{{getLevel.user}}</b> - You are logged in panel of <b>{{getLevel.company}}</b>.</div>
+      <div id="date"><div class="date-0">{{this.date.date}}</div><div class="date-1">{{this.date.hours}}</div></div>
       </div>
     <div id="today" v-if="controller.today">
       <today/>
@@ -116,7 +116,7 @@ export default {
   height: 75vh;
   width: 75vw;
   flex-direction: column;
-  align-items: center;
+  padding: 1vw 1vh;
   color: white;
   background-color:rgba(30,41,59,0.5);
   border-radius: 10px;
@@ -144,14 +144,15 @@ export default {
     0 12px 12px rgba(32, 32, 32, 0.35);
 }
 #greet{
-  margin: auto 2vw;
+  margin: auto 1vw;
 }
 #date{
+  display: flex;
   background-color:rgba(43, 128, 226, 0.45);
   margin-top:5px;
   width:30vw;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   border: 1px solid rgba(235, 235, 235,0.5);
   border-radius: 0px 0px 10px 0px;
 }
@@ -190,22 +191,6 @@ li {
  
 .nav li:hover {
   background-color: rgba(30,41,59,0.5);
-}
- 
-@media screen and (min-width: 600px) {
-  .nav li {
-    width: 120px;
-    border-bottom: none;
-    height: 50px;
-    line-height: 40px;
-    font-size: 1.4em;
-  }
- 
-  /* Option 1 - Display Inline */
-  .nav li {
-    display: inline-flex;
-    flex-direction: column;
-  }
 }
 .FormDate {
   display: inline-flex;
@@ -418,5 +403,90 @@ li {
   height:0.3vh;
   width: 7vw;
   background-color:rgb(203, 206, 36);
+}
+
+@media screen and (min-width: 600px) and (min-height: 450px){
+  .nav li {
+    display: inline-flex;
+    flex-direction: column;
+    width: 120px;
+    border-bottom: none;
+    height: 50px;
+    line-height: 40px;
+    font-size: 1.4em;
+  }
+}
+
+@media screen and (max-width: 600px) {
+    #message{
+      font-size: 0.5rem;
+    }
+    li span{
+      max-height: 3vh;
+      max-width: 10vw;
+    }
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      height: 7vh;
+      font-size: 0.7rem;
+    }
+    .active{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      height: 7vh;
+      font-size: 0.7rem;
+    }
+}
+@media screen and (max-height: 411px) and (orientation: portrait) {
+    li span{
+      max-height: 3vh;
+      max-width: 10vw;
+    }
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      height: 7vh;
+      font-size: 0.7rem;
+    }
+    .active{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      height: 7vh;
+      font-size: 0.7rem;
+    }
+}
+@media screen and (max-height: 450px) and (orientation: landscape) {
+    div{
+      font-size: 0.5rem;
+    }
+    li span{
+      opacity: 0;
+      max-height: 0vh;
+      max-width: 0vw;
+    }
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 7vh;
+      font-size: 0.7rem;
+    }
+    .active{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      height: 7vh;
+      font-size: 0.7rem;
+    }
 }
 </style>

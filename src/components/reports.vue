@@ -1,18 +1,21 @@
 <template>
   <div class="background">
-    <div class="searchArea">
-      <DatePicker
-      v-model="date" />
-      <div class="buttonArea"></div>
-    <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
-     <span v-bind:class="{ none: inactive}">{{loginText}}</span>
-     <span class="gg-close" v-bind:class="{ none: !fail}"></span>
-     <span class="gg-check" v-bind:class="{ none: !succ}"></span>
-     </button>
+    <div id="column1">
+      <div class="row1">
+        <DatePicker
+        v-model="date" />
+      </div>
+      <div class="row2">
+        <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
+          <span v-bind:class="{ none: inactive}">{{loginText}}</span>
+          <span class="gg-close" v-bind:class="{ none: !fail}"></span>
+          <span class="gg-check" v-bind:class="{ none: !succ}"></span>
+        </button>
+      </div>
     </div>
-    <span class="error" v-bind:class="{ none: err=== -1 || err=== 0}">{{errMsg}}</span>
-    <div class="chartArea" v-if="search">
-      <chart/>
+    <div id="column2">
+      <div id="column2-0" v-bind:class="{ none: search }" >Please enter date and click on button!</div>
+      <div id="column2-1" v-if="search"><chart/></div>
     </div>
   </div>
 </template>
@@ -31,14 +34,13 @@ export default {
   },
     data () {
     return {
-      search: true,
+      search: false,
       date: new Date("2020-08-05"),
       inactive: false,
       loginText: 'Search',
       succ: false,
       fail: false,
-      err:0,
-      errMsg: "Došlo je do pogreške."          
+      err:0,        
     }
   },
    computed: {
@@ -53,8 +55,6 @@ export default {
       const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' }) 
       const [{ value: month },,{ value: day },,{ value: year }] = dateTimeFormat .formatToParts(this.date) 
       let date = ""+year+month+day;
-      // let date = ""+this.date.year+this.date.month+this.date.day;
-      // console.log(parseInt(date),typeof(date))
        return date; 
       },
        ...mapActions([ // calling mutation that will update stats in vuex.
@@ -62,11 +62,10 @@ export default {
       ]),
       // Method that sends date to backend and gets proper statistics that will be shown via charts.
       async send(){
-         this.getStatisticsAction(await Services.getReport(this.Token,this.parseDate()))
-         this.search = true;
-         this.err = -1;
-         console.log(this.parseDate());
-           },
+        this.search = true;
+        this.getStatisticsAction(await Services.getReport(this.Token,this.parseDate()))
+        this.err = -1;
+      },
       // Method that will restart animation after fail or success.
       restartInactive() {
         if(this.err === -1) {this.succ = true;}
@@ -99,31 +98,38 @@ export default {
   color:#FBEEC1
 }
 .background {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display:flex;
   flex-direction: column;
+  height: 70vh;
 }
-.searchArea {
-  display: inline-flex;
-  align-items: center;
-  justify-content:stretch;
+#column1 {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  background-color: rgba(28, 110, 164, 0.2);
+  border-radius: 10px;
+  margin-top: 1.5em;
 }
-.input-el{
-  text-align: center;
-  color: white;
-  width: 50px;
-  background-color: transparent;
-  border-style: hidden;
-  border-bottom: 2px solid rgba(76, 127, 221, 0.89);
+#column2-0{margin-top:5rem;}
+#column2 {
+  align-self: center;
 }
-.tag {
-  font-size: small;
-  background-color: transparent;
-  outline: none;
-  color: rgba(76, 127, 221, 0.89);
-  margin: auto 5vh;
+/* Graph id and animations */
+#column2-1{
+  
+  align-self: center;
+  -webkit-animation:slide-in-bottom 3s cubic-bezier(.55,.085,.68,.53) both;animation:slide-in-bottom 3s cubic-bezier(.55,.085,.68,.53) both
 }
+
+@-webkit-keyframes slide-in-bottom{0%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-bottom{0%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}
+.row1{
+  margin: 1vw;
+}
+.row2{
+  margin: 1vw;
+}
+
+/* CSS for button */
 .button
 {
   padding: 10px;
@@ -133,16 +139,7 @@ export default {
   border-radius: 50px;
   background-color: transparent;
   color: white;
-  box-shadow: 0 0.4px 0.4px rgba(32, 32, 32, 0.109),
-  0 1px 1px rgba(32, 32, 32, 0.155),
-  0 2.1px 2.1px rgba(32, 32, 32, 0.195),
-  0 4.4px 4.4px rgba(32, 32, 32, 0.241),
-  0 5px 5px rgba(32, 32, 32, 0.35);
   outline:none;
-  margin: 1vh 5vh;
-} 
-.button:hover {
-  background-color: rgba(28, 110, 164, 0.7);
 }
 .buttonActive{
   transition: ease-in 500ms;
@@ -152,14 +149,12 @@ export default {
   border-radius: 50px;
   background-color: transparent;
   color: white;
-  box-shadow: 1px 1px 10px rgba(32, 32, 32, 0.109),
-  1px 1px 10px rgba(32, 32, 32, 0.155),
-  1px 1px 10px rgba(32, 32, 32, 0.195),
-  1px 1px 10px rgba(32, 32, 32, 0.241),
-  1px 1px 10px rgba(32, 32, 32, 0.35);
   cursor: default;
   animation: loading-rotation 3s ease 500ms normal;
   outline:none;
+} 
+.button:hover {
+  background-color: rgba(28, 110, 164, 0.7);
 }
 .gg-close {
     box-sizing: border-box;
@@ -235,6 +230,55 @@ export default {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@media screen and (max-height: 450px) and (orientation: landscape){
+  .chart1{
+    display:none;
+  }
+  #column1{
+    justify-content: center;
+  }
+}
+@media screen and (max-width: 600px) {
+  #column1 {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    background-color: rgba(28, 110, 164, 0.2);
+    border-radius: 10px;
+    margin-top: 1.5rem;
+    padding:10px;
+  }
+  .button
+  {
+    padding:0;
+    width: 50px;
+    height: 50px;
+    border: 2px inset rgb(28, 110, 164);
+    border-radius: 50px;
+    background-color: transparent;
+    color: white;
+    outline:none;
+    font-size: 0.5rem;
+  }
+  .buttonActive{
+    transition: ease-in 500ms;
+    padding: 10px;
+    width: 50px;
+    border: 2px inset rgb(28, 110, 164);
+    border-radius: 50px;
+    background-color: transparent;
+    color: white;
+    cursor: default;
+    animation: loading-rotation 3s ease 500ms normal;
+    outline:none;
+  }
+  .row2{
+    padding:5vw;
+  }
+  .row1{
+    margin-top: 4vh;
   }
 }
 </style>

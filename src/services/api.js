@@ -1,6 +1,6 @@
 import axios from "axios";
-//const url = 'http://praksans.dyndns.org/api/';
-const url = 'http://192.168.1.112/api/';
+const url = 'http://praksans.dyndns.org/api/';
+//const url = 'http://192.168.1.112/api/';
 axios.defaults.withCredentials = false;
 class Services
 {
@@ -46,7 +46,6 @@ class Services
               })
                        .then((response) => {
                            resolve(response.data)
-                           console.log(response);
                         })
                        .catch((err) => reject(err));
             });
@@ -63,7 +62,6 @@ class Services
                   })
                 .then((res) => {
                     const data = res.data;
-                    console.log(data),
                     resolve(data);
                 })
                 .catch((err)=> {
@@ -83,7 +81,6 @@ class Services
                   })
                        .then((response) => {
                            resolve(response.data)
-                           console.log(response);
                         })
                        .catch((err) => reject(err));
             });
@@ -137,7 +134,6 @@ static Bydate(token,date) {
                 },
               })
             .then((response) => {
-                console.log(response);
                 resolve(response.data)
             })
             .catch((err)=> {

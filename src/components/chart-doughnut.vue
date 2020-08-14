@@ -4,34 +4,35 @@
     <div class="chart1">
       <chartjs-doughnut
         :bind="true"
-        :datasets="datasets"
-        :labels="labels"
-        :option="option"
+        :datasets="datacollection1.datasets"
+        :labels="datacollection1.labels"
+        :option="optionsDoughnut"
       />
      </div>
      <div class="chart2">
       <chartjs-bar
         :bind="true"
-        :datasets="datasets"
-        :labels="labels"
-        :option="option1"
+        :datasets="datacollection1.datasets"
+        :labels="datacollection1.labels"
+        :option="optionsBar"
       />
     </div>
+    <div class="info5">The busiest hour: {{this.mostTraffic().hour}}:00</div>
     </div>
     <div id="column2">
       <div class="chart3">
       <chartjs-line
         :bind="true"
-        :datasets="datasets1"
-        :labels="labels1"
-        :option="option1"
+        :datasets="datacollection.datasets"
+        :labels="datacollection.labels"
+        :option="options"
       />
       </div>
-      <div class="info1">Ukupno reakcija: {{this.Stats.temp.reduce(function(acc, val) { return acc + val; }, 0)}}</div>
-      <div class="chart3">Najčešća reakcija: {{this.mostCommonReaction()}}</div>
-      <div class="info2">Zadovoljstvo klijenata: {{this.succesRate() +'%'}}</div>
-  </div>
-  <div class="chart1">Lorem ipsum, dolor sit amet consectetur adipisicing elit. At beatae, dolore minus magni in quisquam suscipit. Amet doloribus dignissimos assumenda numquam. Nulla molestias beatae quibusdam minima corrupti in. Odit, impedit!</div>
+      <div class="info1">Total reactions: {{this.Stats.temp.reduce(function(acc, val) { return acc + val; }, 0)}}</div>
+      <div class="info3">Most common reaction: {{this.mostCommonReaction()}}</div>
+      <div class="info4">Happiness: {{this.succesRate() +'%'}}</div>
+      <div class="info2">Count of most common reaction: {{this.mostTraffic().emo}}</div>
+    </div>
   </div>
 </template>
 
@@ -42,8 +43,8 @@ export default {
   sockets: {
     // Socket.io listening for server emit after client sends reaction.
     INSERTION() {
-      this.change = this.change + 1;
       this.statistics();
+      this.statisticsHour();
     }
   },
   async created()
@@ -51,7 +52,6 @@ export default {
       // Calling statistics method when component is created.
       this.statistics();
       this.statisticsHour();
-      this.datasets[0].data = this.Stats.temp
    },
   methods:{
     ...mapActions([ // calling mutation that will update stats in vuex.
@@ -70,29 +70,26 @@ export default {
     async statisticsHour(){
       this.getStatisticsHourAction(await Services.Bydate(this.Token,this.parseDate()))
     },
-    // Method that parses response date from backend.
-    parseData(){
-      let sum = 0;
-      let array = [];
+    // Method that calculates mostTraffic hour and counts emoticons in that rush hour.
+    mostTraffic(){
+      let mostTraffic = {emo:0,hour:0};
       for(let i=1;i<=5;i++){
-        //sum = this.Stats[`${i}`].reduce(function(acc, val) { return acc + val; }, 0);
-        sum = this.Stats.temp.reduce(function(acc, val) { return acc + val; }, 0);
-        array.push(sum);
+        let temp = Math.max.apply(null, this.hourStats[`${i}`]);
+        if(temp>=mostTraffic.emo) {mostTraffic.emo = temp; mostTraffic.hour = this.hourStats[`${i}`].indexOf(mostTraffic.emo);}
       }
-      return array;
+      return mostTraffic;
     },
     // Method that calculates success rate of current reactions in system.
     succesRate(){
       let result = []
-      let array = this.Stats.temp //this.parseData();
+      let array = this.Stats.temp
       for(let i=0;i<array.length;i++){
         result.push(array[i]*(array.length-i));
       }
-      let num = result.reduce(function(acc, val) { return acc + val; }, 0);
-      if(num < 100){
-        result = (num / array.length) * 10;
-      }else result = (num / array.length);
-      return result;
+      let num = result.reduce(function(acc, val) { return acc + val; }, 0)/this.Stats.temp.reduce(function(acc, val) { return acc + val; }, 0);
+      num = (num * 100)/5
+      if(isNaN(num)) num = 0;
+      return num.toFixed(0);
     },
     // Method that calculates most common reaction sent by users.
     mostCommonReaction(){
@@ -109,93 +106,170 @@ export default {
   },
   watch: {
     Stats: function(){
-        this.datasets[0].data = this.Stats.temp //this.parseData()
+        this.datacollection1.datasets[0].data = this.Stats.temp 
     },
     hourStats: function(){
-        this.datasets1[0].data= this.hourStats.temp['1']
-        this.datasets1[1].data= this.hourStats.temp['2']
-        this.datasets1[2].data= this.hourStats.temp['3']
-        this.datasets1[3].data= this.hourStats.temp['4']
-        this.datasets1[4].data= this.hourStats.temp['5']
+        this.datacollection.datasets[0].data= this.hourStats['1']
+        this.datacollection.datasets[1].data= this.hourStats['2']
+        this.datacollection.datasets[2].data= this.hourStats['3']
+        this.datacollection.datasets[3].data= this.hourStats['4']
+        this.datacollection.datasets[4].data= this.hourStats['5']
     }
   },
   data() {
     return {
-      change: 0,
-      datasets:[
-        {
-         data:[],  // data sets that will be displayed via chart
-          backgroundColor: ["#85f24b", "#d4de4e", "#e89f4d","#3437eb","#eb34eb"], // background-colors of chart
-          hoverBackgroundColor: ["#53ad23", "#99ad11", "#c2731b","#d1d1fa","#fad1fa"] // hover background-color of chart
-        }
-      ],
-      datasets1:[
-        {
-         data:[],  // data sets that will be displayed via chart
-          backgroundColor: ["#85f24b"], // background-colors of chart
-          hoverBackgroundColor: ["#53ad23"] // hover background-color of chart
-        },
-        {
-          data:[],
-          backgroundColor:["#d4de4e"],
-          hoverBackgroundColor:["#99ad11"],
-
-        },
-        {
-          data:[],
-          backgroundColor:["#e89f4d"],
-          hoverBackgroundColor:["#c2731b"],
-
-        },
-        {
-          data:[],
-          backgroundColor:["#3437eb"],
-          hoverBackgroundColor:["#d1d1fa"],
-
-        },
-        {
-          data:[],
-          backgroundColor:["#eb34eb"],
-          hoverBackgroundColor:["#fad1fa"],
-
-        }
-      ],
-      labels1: ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"],
-      labels: ["Excelent", "Very good", "Good","Pass","Fail"], // labels - legends
-      option: {        
-        legend: {
-             labels: {
-                  fontColor: 'white'
-            }
-      }    
-      },
-      option1: {
-        legend: {
-            display: false
-        },
-        scales: {
-        yAxes: [{
-          gridLines: {
-            color: 'white',
-            zeroLineColor:'white'
-          },
-            ticks: {
+      // Datacollection of line-chart that will be represented.
+      datacollection: {
+                //Data to be represented on x-axis
+                labels: ['00h', '01h', '02h', '03h', '04h', '05h', '06h', '07h', '08h', '09h', '10h', '11h','12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h'],
+                datasets: [
+                  {
+                    label: 'Excelent',
+                    backgroundColor: '#85f24b',
+                    pointBackgroundColor: 'green',
+                    borderWidth: 1,
+                    pointBorderColor: '#249EBF',
+                    //Data to be represented on y-axis
+                    data: []
+                  },
+                  {
+                    label: 'Very good',
+                    backgroundColor: '#d4de4e',
+                    pointBackgroundColor: 'yellow',
+                    borderWidth: 1,
+                    pointBorderColor: '#249EBF',
+                    //Data to be represented on y-axis
+                    data: []
+                  },
+                  {
+                    label: 'Good',
+                    backgroundColor: '#e89f4d',
+                    pointBackgroundColor: 'orange',
+                    borderWidth: 1,
+                    pointBorderColor: '#249EBF',
+                    //Data to be represented on y-axis
+                    data: []
+                  },
+                  {
+                    label: 'Pass',
+                    backgroundColor: '#3437eb',
+                    pointBackgroundColor: 'blue',
+                    borderWidth: 1,
+                    pointBorderColor: '#249EBF',
+                    //Data to be represented on y-axis
+                    data: []
+                  },
+                  {
+                    label: 'Fail',
+                    backgroundColor: '#eb34eb',
+                    pointBackgroundColor: 'purple',
+                    borderWidth: 1,
+                    pointBorderColor: '#249EBF',
+                    //Data to be represented on y-axis
+                    data: []
+                  },
+                ]
+              },
+      //line-chart options that controls the appearance of the chart3
+      options: {
+          scales: {
+            yAxes: [{
+              gridLines: {
+                color: 'white',
+                zeroLineColor:'white',
+              },
+              ticks: {
                 fontColor: 'white',
-                beginAtZero: true
-            }
-        }],
-        xAxes: [{
-          gridLines: {
-            color: 'white',
-            zeroLineColor:'white'
+                beginAtZero: true,
+                precision: 0
+              },
+            }],
+            xAxes: [ {
+              gridLines: {
+                color: 'transparent',
+                zeroLineColor:'transparent'
+              },
+              ticks: {
+                fontColor: 'white',
+                beginAtZero: true,
+              },
+            }]
           },
-          ticks: {
-            fontColor: 'white',
-
-          }
-        }]
-      }
-      }
+          legend: {
+            display: true,
+            labels: {
+              fontColor: 'white'
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        },
+        // Options preset for Doughnut chart.
+        optionsDoughnut: {
+          scales: {
+            yAxes: [{
+              display: false,
+            }],
+            xAxes: [ {
+              display: false,
+            }]
+          },
+          legend: {
+            display: true,
+            labels: {
+              fontColor: 'white'
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        },
+        // Options preset for Bar chart.
+        optionsBar: {
+          scales: {
+            yAxes: [{
+              gridLines: {
+                color: 'white',
+                zeroLineColor:'white',
+              },
+              ticks: {
+                fontColor: 'white',
+                beginAtZero: true,
+                precision: 0
+              },
+            }],
+            xAxes: [ {
+              gridLines: {
+                color: 'transparent',
+                zeroLineColor:'transparent'
+              },
+              ticks: {
+                fontColor: 'white',
+                beginAtZero: true,
+              },
+            }]
+          },
+          legend: {
+            display: false,
+            labels: {
+              fontColor: 'white',
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        },
+      // Datacollection of doughnut and bar charts that will be represented.
+      datacollection1: {
+          //Data to be represented on x-axis
+            labels: ["Excelent", "Very good", "Good","Pass","Fail"],
+            datasets: [
+            {
+              backgroundColor: ["#85f24b", "#d4de4e", "#e89f4d","#3437eb","#eb34eb"], // background-colors of chart
+              hoverBackgroundColor: ["#53ad23", "#99ad11", "#c2731b","#d1d1fa","#fad1fa"], // hover background-color of chart
+              //Data to be represented on y-axis
+              data: []
+            },
+          ]
+        },
     };
   },
       computed: {
@@ -209,51 +283,88 @@ export default {
 </script>
 <style scoped>
 #card {
-  display: flex;
-  justify-content: flex-start;
-  width: 70vw;
-  padding: 2vw;
+  display:flex;
+  flex-direction: row;
+  justify-content:space-around;
+  height:70vh;
 }
 #column1 {
-  justify-items: left;
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 100%;
 }
 #column2 {
-  justify-items: left;
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 100%;
 }
 .chart1{
-  margin:2vh auto;
-  width: 20vw;
+  margin:1vw;
   padding: 1vw;
   background-color: rgba(94, 99, 201, 0.7);
   border-radius: 10px;
 }
 .chart2{
+  margin:1vw;
   padding: 1vw;
   background-color: rgba(144, 94, 201, 0.7);
   border-radius: 10px;
 }
 .chart3{
-  display: flex;
-  width: 20vw;
+  margin:1vw;
   padding: 1vw;
-  margin: 2vh;
   background-color: rgba(142, 201, 94, 0.7);
   border-radius: 10px;
 }
-.info1{  
-  display: flex;
-  width: 20vw;
+.info1{
+  margin:auto 1vw;
   padding: 1vw;
-  margin: 2vh;
   border-radius: 10px;
   background-color: rgba(94, 99, 201, 0.7);
 }
-.info2{  
-  display: flex;
-  width: 20vw;
+.info2{
+  margin:auto 1vw;
   padding: 1vw;
-  margin: 2vh;
   border-radius: 10px;
   background-color: rgba(201, 133, 94, 0.7);
+}
+.info3{
+  margin:auto 1vw;
+  padding: 1vw;
+  border-radius: 10px;
+  background-color: rgba(201, 94, 139, 0.7);
+}
+.info4{
+  margin:auto 1vw;
+  padding: 1vw;
+  border-radius: 10px;
+  background-color: rgba(201, 94, 94, 0.7);
+}
+.info5{
+  margin:1vw;
+  padding: 1vw;
+  border-radius: 10px;
+  background-color: rgba(201, 94, 94, 0.7);
+}
+@media screen and (max-height: 450px) and (orientation: landscape){
+  .chart1{
+    display:none;
+  }
+  #column1{
+    justify-content: center;
+  }
+}
+@media screen and (max-width: 600px) {
+  #card {
+  display:flex;
+  flex-direction: column;
+  height:70vh;
+  }
+  #column1{
+    flex-basis: 60%;
+  }
+  .chart1{
+    display:none;
+  }
 }
 </style>
