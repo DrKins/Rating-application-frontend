@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = 'http://praksans.dyndns.org/api/';
+const url = 'https://praksans.dyndns.org/api/';
 //const url = 'http://192.168.1.112/api/';
 axios.defaults.withCredentials = false;
 class Services
@@ -140,7 +140,16 @@ static Bydate(token,date) {
                 reject(err);
             })
         });
-    }  
+    }
+//Sending settings for slack.
+static Setslack(token,SlackToken,SlackBot,SlackChannel)
+{
+    axios.post(url+'settings/setslack', {"SlackToken":SlackToken,"SlackBot":SlackBot,"SlackChannel":SlackChannel}, { headers: { Authorization: `Bearer ${token}`}})
+        .then(() => {
+          }, (error) => {
+            console.log(error);
+          });
+}
 }
 
 export default Services;

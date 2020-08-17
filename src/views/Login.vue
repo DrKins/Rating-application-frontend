@@ -1,22 +1,23 @@
 <template>
 <div id="login">
 <form id="form">
-  <div class="input-area">
+  <div class="row1">
     <span class="tag">Username:</span>
     <input class="input-el" v-model="message.username" placeholder="Username">
     <br>
   </div>
-  <div class="input-area">
+  <div class="row2">
   <span class="tag">Password:</span>
   <input class="input-el" type="password" v-model="message.password" placeholder="Password"><br>
   <br>
   </div>
-   <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
+  <div class="row3">
+    <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
      <span v-bind:class="{ none: inactive}">{{loginText}}</span>
      <span class="gg-close" v-bind:class="{ none: !fail}"></span>
      <span class="gg-check" v-bind:class="{ none: !succ}"></span>
-     </button>
-    <span class="error" v-bind:class="{ none: err=== -1 || err=== 0}">{{errMsg}}</span>
+    </button>
+  </div>
 </form>
 
 </div>
@@ -40,7 +41,6 @@ export default {
           succ: false,
           fail: false,
           err:0,
-          errMsg: "Došlo je do pogreške."
         }
     },
     computed: {
@@ -79,7 +79,7 @@ export default {
      inactive: function() {
        if(this.inactive == true) {
         this.loginText='';
-        setTimeout(this.restartInactive, 2500);
+        setTimeout(this.restartInactive, 2895);
        }
        else this.loginText='Login';
      }
@@ -101,11 +101,13 @@ export default {
   padding-bottom: 4vh;
   margin-bottom:2vh;
   margin-top:1vh;
-  }
+}
+
 #form {
   display: flex;
-  height: 41vh;
+  height: 25vh;
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
   padding: 5vw;
   color: white;
@@ -144,7 +146,6 @@ textarea:focus, input:focus{
 }
  .button
 {
-  margin-top: -5vh;
   transition: ease-in 250ms;
   padding: 10px;
   width: 100px;
@@ -153,11 +154,6 @@ textarea:focus, input:focus{
   border-radius: 50px;
   background-color: transparent;
   color: white;
-  box-shadow: 0 0.4px 0.4px rgba(32, 32, 32, 0.109),
-  0 1px 1px rgba(32, 32, 32, 0.155),
-  0 2.1px 2.1px rgba(32, 32, 32, 0.195),
-  0 4.4px 4.4px rgba(32, 32, 32, 0.241),
-  0 12px 12px rgba(32, 32, 32, 0.35);
   outline:none;
 } 
 .button:hover {
@@ -171,11 +167,6 @@ textarea:focus, input:focus{
   border-radius: 50px;
   background-color: transparent;
   color: white;
-  box-shadow: 1px 1px 10px rgba(32, 32, 32, 0.109),
-  1px 1px 10px rgba(32, 32, 32, 0.155),
-  1px 1px 10px rgba(32, 32, 32, 0.195),
-  1px 1px 10px rgba(32, 32, 32, 0.241),
-  1px 1px 10px rgba(32, 32, 32, 0.35);
   cursor: default;
   animation: loading-rotation 3s ease 500ms normal;
   outline:none;
@@ -257,76 +248,61 @@ textarea:focus, input:focus{
     transform: rotate(360deg);
   }
 }
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-    #form {
-      height: 25vh;
+@media only screen and (max-device-width: 1024px) {
+  #form {
+    height: 30vh;
+  }
+  .input-area
+  {
+    --default-color: white;
+    --border-bottom-color: white;
+    padding-bottom: 4vh;
+    margin-bottom:2vh;
+    margin-top:-1vh;
     }
-    .input-area
-    {
-      --default-color: white;
-      --border-bottom-color: white;
-      padding-bottom: 4vh;
-      margin-bottom:2vh;
-      margin-top:-1vh;
-      }
-     .button
-    {
-      margin-top: -5vh;
-      transition: ease-in 250ms;
-      padding: 10px;
-      width: 100px;
-      height: 50px;
-      border: 2px inset rgb(28, 110, 164);
-      border-radius: 50px;
-      background-color: transparent;
-      color: white;
-      box-shadow: 0 0.4px 0.4px rgba(32, 32, 32, 0.109),
-      0 1px 1px rgba(32, 32, 32, 0.155),
-      0 2.1px 2.1px rgba(32, 32, 32, 0.195),
-      0 4.4px 4.4px rgba(32, 32, 32, 0.241),
-      0 12px 12px rgba(32, 32, 32, 0.35);
-      outline:none;
-    } 
-    .error{
-      transition: ease-in 500ms;
-      margin-top: 1vh;
-      color:#df775d;
-      font-size: small;
-    }
-.red {
-  background-color: #df775d;
+    .button
+  {
+    transition: ease-in 250ms;
+    padding: 10px;
+    width: 100px;
+    height: 50px;
+    border: 2px inset rgb(28, 110, 164);
+    border-radius: 50px;
+    background-color: transparent;
+    color: white;
+    outline:none;
+  } 
+  .buttonActive{
+    transition: ease-in 500ms;
+    padding: 10px;
+    width: 50px;
+    border: 2px inset rgb(28, 110, 164);
+    border-radius: 50px;
+    background-color: transparent;
+    color: white;
+    cursor: default;
+    animation: loading-rotation 3s ease 500ms normal;
+    outline:none;
+  }
 }
-.error{
-  transition: ease-in 500ms;
-  margin-top: 1vh;
-  color:#df775d;
-  font-size: small;
+@media screen and (min-width: 768px) and (orientation: portrait){
+  #form {
+    height: 17vh;
+  }
+  .input-area
+  {
+    --default-color: white;
+    --border-bottom-color: white;
+  }
 }
-.green {
-  background-color: #5ddf8f;
-}
-.none {
-  display:none;
-}
-.button:hover {
-  background-color: rgba(28, 110, 164, 0.7);
-}
-.buttonActive{
-  transition: ease-in 500ms;
-  padding: 10px;
-  width: 50px;
-  border: 2px inset rgb(28, 110, 164);
-  border-radius: 50px;
-  background-color: transparent;
-  color: white;
-  box-shadow: 1px 1px 10px rgba(32, 32, 32, 0.109),
-  1px 1px 10px rgba(32, 32, 32, 0.155),
-  1px 1px 10px rgba(32, 32, 32, 0.195),
-  1px 1px 10px rgba(32, 32, 32, 0.241),
-  1px 1px 10px rgba(32, 32, 32, 0.35);
-  cursor: default;
-  animation: loading-rotation 3s ease 500ms normal;
-  outline:none;
-}
+@media screen and (min-height: 280px) and (max-height: 450px) and (orientation: landscape){
+  #form {
+    height: 65vh;
+  }
+  .input-area
+  {
+    --default-color: white;
+    --border-bottom-color: white;
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-    <ul id="horizontal-list" v-bind:class="{none: !load}">
+    <ul id="horizontal-list" v-bind:class="{none: !loaded}">
       <li v-for="item in items" :key="item.id">
         <img v-bind:src="item.img" v-bind:alt="item.title" v-bind:class="emoticon" :id="item.id" @click="insertReaction">
       </li>
@@ -17,10 +17,9 @@ export default {
   name: 'emoticons',
     data () {
     return {
-      emoticon: "yellowPack",
       items: [],
       emoji: null,
-      load: false
+      loaded: false,
     }
   },
   computed: {
@@ -30,11 +29,11 @@ export default {
   Token: 'get_token',
   vuex_items: 'get_items',
   emoticonNumber: 'get_emoticonNumber',
-  loaded: 'get_loaded'}),
+  emoticonPack: 'get_emoticonPack'}),
   },
   watch: {
-     load: function() {
-        this.updateGUI(this.emoticon,this.vuex_items,this.emoticonNumber)
+     loaded: function() {
+        this.updateGUI(this.emoticonPack,this.vuex_items,this.emoticonNumber)
      }
   },
   methods: {
@@ -48,6 +47,7 @@ export default {
     // Async function that will get live settings from backend and update it.
     async waitForSettings() {
       this.updateGUISettingsAction(await Services.getSettings(this.Token));
+      setTimeout(()=>{this.loaded = true;},1500)
     },
     // Method that sends client reaction to backend.
      insertReaction() {
@@ -57,12 +57,6 @@ export default {
          this.$router.push('/thanks');
      },1000)
     },
-    // Method made for animation purposes, smooth loading of page.
-    loading(){
-      setTimeout(()=>{
-        this.load = true;
-      },4000);
-    },
     ...mapActions([ // calling mutation that will update GUI Settings in vuex.
     'updateGUISettingsAction'
      ]),
@@ -70,7 +64,6 @@ export default {
   created : function(){
     // Calling methods of fetching updated settings and loading simultaneously.
     this.waitForSettings()
-    this.loading()
   },
 }
 </script>

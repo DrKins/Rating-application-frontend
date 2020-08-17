@@ -1,8 +1,9 @@
 const state = {
     array: [],
-    adminMessage : "",
+    adminMessage : "Hvala na povjerenju! asdweqsdaasgqeasdwqeqwewsdsa",
     emoticonNumber : 0,
     adminMessageduration : 0,
+    emoticonPack: 'yellowPack',
     token : 'nntoken',
     level: {user:'troll',level:2,company:''},
     items: [
@@ -30,12 +31,13 @@ const getters = {
     get_adminMessage: state => state.adminMessage,
     get_emoticonNumber : state => state.emoticonNumber,
     get_adminMessageduration : state => state.adminMessageduration,
+    get_emoticonPack : state => state.emoticonPack,
     get_token : state => state.token,
     get_items : state => state.items,
     get_users : state => state.users,
     get_level : state => state.level,
     get_statistics : state => state.statistics,
-    get_statisticsHour : state => state.statisticsHour
+    get_statisticsHour : state => state.statisticsHour,
 };
 
 const actions ={
@@ -75,7 +77,7 @@ const mutations = {
          state.adminMessage = state.array.message;
          state.emoticonNumber = state.array.emoticonCount;
          state.adminMessageduration = state.array.messageDuration;
-         state.loaded = true;
+         state.emoticonPack = state.array.emoticonPack;
      },
     // Mutation of reports statistics.
      mutateStatistics(state,payload){

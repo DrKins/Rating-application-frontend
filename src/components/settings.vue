@@ -1,35 +1,64 @@
 <template>
-<div class="background">
-    <form id="form">
-      <div class="input-el input-msg">
-        <span>Client message:</span>
-        <input class="input" v-model="message.text" placeholder="Enter message">
-      </div>
-      <div class="input-el">
-        <span>Duration of message in seconds:</span>
-        <select class="select-css" v-model="message.len">
-          <option disabled value=""></option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select><br>
-      </div>
-      <div class="input-el">
-        <span>Number of emoticons that are showed: </span>
-        <select class="select-css" v-model="message.emojis">
-          <option disabled value=""></option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select><br>
-      </div>
-        <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
-          <span v-bind:class="{ none: inactive}">{{loginText}}</span>
-          <span class="gg-close" v-bind:class="{ none: !fail}"></span>
-          <span class="gg-check" v-bind:class="{ none: !succ}"></span>
-        </button>
-        <span class="error" v-bind:class="{ none: err=== -1 || err=== 0}">{{errMsg}}</span>
-    </form>
+<div class="container">
+  <div class="background">
+    <div class="column0">
+      <form id="form">
+        <div class="input-el input-msg">
+          <span>Thank You Message:</span>
+          <input class="input" v-model="message.text" placeholder="Enter message">
+        </div>
+        <div class="input-el">
+          <span>Duration of message in seconds:</span>
+          <select class="select-css" v-model="message.len">
+            <option disabled value=""></option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select><br>
+        </div>
+        <div class="input-el">
+          <span>Number of emoticons that are showed: </span>
+          <select class="select-css" v-model="message.emojis">
+            <option disabled value=""></option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select><br>
+        </div>
+        <div class="input-el">
+          <span>Emoticon pack: </span>
+          <select class="select-css" v-model="message.pack">
+            <option disabled value=""></option>
+            <option>yellowPack</option>
+            <option>blackPack</option>
+          </select><br>
+        </div>
+      </form>
+    </div>
+    <div class="column1">
+        <form id="form">
+          <div class="input-el">
+            <span>Slack Token:</span>
+            <input class="input" v-model="slack.SlackToken" type="password" placeholder="Enter token">
+          </div>
+              <div class="input-el">
+            <span >Slack Bot:</span>
+            <input class="input" v-model="slack.SlackBot" placeholder="Enter Bot">
+          </div>
+            <div class="input-el">
+            <span >Slack Channel:</span>
+            <input class="input" v-model="slack.SlackChannel" placeholder='Enter channel'>
+          </div>
+        </form>
+    </div>
+  </div>
+    <div class="column2">
+      <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
+        <span v-bind:class="{ none: inactive}">{{loginText}}</span>
+        <span class="gg-close" v-bind:class="{ none: !fail}"></span>
+        <span class="gg-check" v-bind:class="{ none: !succ}"></span>
+      </button>
+    </div>
 </div>
 </template>
 
@@ -46,14 +75,18 @@ export default {
             text: "",
             len: 3,
             emojis: 3,
+            pack: "yellowPack"
           },
+    slack:{
+            SlackToken : '',
+            SlackBot : '',
+            SlackChannel : '' 
+    },
     inactive: false,
     loginText: 'Update',
     succ: false,
     fail: false,
     err:0,
-    errMsg: "Došlo je do pogreške.",
-    emoPack: "yellowPack"          
     }
   },
    computed: {
@@ -64,7 +97,9 @@ export default {
   methods: {
     // Method that sends new settings of company to backend.
     send(){
-      Services.updateSettings(this.Token,this.message.text,this.message.len,this.message.emojis,this.emoPack);
+      if(this.send.text === ''){ 
+        Services.Setslack(this.Token,this.slack.SlackToken,this.slack.SlackBot,this.slack.SlackChannel);
+      } else Services.updateSettings(this.Token,this.message.text,this.message.len,this.message.emojis,this.message.pack);
       this.err=-1;
      },
     // Method that will restart animation after fail or success.
@@ -97,10 +132,26 @@ export default {
 *{
   overflow: hidden;
 }
+.container{
+  display:flex;
+  flex-direction:column;
+  justify-content: space-evenly;
+  height: 70vh;
+}
 .background {
   display: flex;
-  justify-content: center;
-  height: 70vh;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.column0{
+  padding:1vw;
+  border-radius:10px;
+}
+.column1{
+  padding:1vw;
+  border-radius:10px;
+  background-color: rgba(20, 66, 43, 0.377);
+  align-self: center;
 }
 .input-el {
   display: flex;
@@ -111,7 +162,6 @@ export default {
   border-radius: 10px;
   border: 1px solid rgba(41, 44, 44, 0.842);
   background-color: rgba(32, 32, 32, 0.109);
-
   }
 .input {
   color: white;
@@ -166,32 +216,6 @@ input:focus{
 	font-weight:normal;
 }
 
-/* plus icon */
- .gg-math-plus,
-.gg-math-plus::after {
- display: block;
- box-sizing: border-box;
- background: currentColor;
- border-radius: 10px
-}
-
-.gg-math-plus {
- margin-top: -2px;
- position: relative;
- transform: scale(var(--ggs,1));
- width: 16px;
- height: 2px
-}
-
-.gg-math-plus::after {
- content: "";
- position: absolute;
- width: 2px;
- height: 16px;
- top: -7px;
- left: 7px
-} 
-
 /* Button css */
 .button
 {
@@ -202,11 +226,6 @@ input:focus{
   border-radius: 50px;
   background-color: transparent;
   color: white;
-  box-shadow: 0 0.4px 0.4px rgba(32, 32, 32, 0.109),
-  0 1px 1px rgba(32, 32, 32, 0.155),
-  0 2.1px 2.1px rgba(32, 32, 32, 0.195),
-  0 4.4px 4.4px rgba(32, 32, 32, 0.241),
-  0 5px 5px rgba(32, 32, 32, 0.35);
   outline:none;
   margin: 1vh 5vh;
 } 
@@ -221,11 +240,6 @@ input:focus{
   border-radius: 50px;
   background-color: transparent;
   color: white;
-  box-shadow: 1px 1px 10px rgba(32, 32, 32, 0.109),
-  1px 1px 10px rgba(32, 32, 32, 0.155),
-  1px 1px 10px rgba(32, 32, 32, 0.195),
-  1px 1px 10px rgba(32, 32, 32, 0.241),
-  1px 1px 10px rgba(32, 32, 32, 0.35);
   cursor: default;
   animation: loading-rotation 3s ease 500ms normal;
   outline:none;
@@ -312,7 +326,82 @@ input:focus{
     font-size: 0.7rem;
   }
   .input-el{
-    margin: 7% auto;
+    margin: 2% auto;
+  }
+  .input-msg {
+  padding: 1vw;
+  border-radius: 10px;
+  border: 1px solid rgba(41, 44, 44, 0.842);
+  background-color: rgba(32, 32, 32, 0.109);
+  }
+  .select-css {
+	display: block;
+	font-size: 12px;
+	font-family: sans-serif;
+	font-weight: 700;
+	color: #444;
+	line-height: 1.1;
+	padding: .1em .1em .1em .1em;
+	max-width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+  margin-left: 1vw;
+	border: 1px solid #aaa;
+	box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+	border-radius: .5em;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: #fff;
+	background-repeat: no-repeat, repeat;
+	background-position: right .7em top 50%, 0 0;
+	background-size: .65em auto, 100%;
+  }
+}
+
+@media screen and (max-width: 450px) and (orientation: portrait){
+  .background{
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 0.7rem;
+  }
+  .column0{
+      align-self: stretch;
+  }
+  .column1{
+      align-self: stretch;
+  }
+  .input-el{
+    margin: 2% auto;
+  }
+  .input-msg {
+  padding: 1vw;
+  border-radius: 10px;
+  border: 1px solid rgba(41, 44, 44, 0.842);
+  background-color: rgba(32, 32, 32, 0.109);
+  }
+  .select-css {
+	display: block;
+	font-size: 12px;
+	font-family: sans-serif;
+	font-weight: 700;
+	color: #444;
+	line-height: 1.1;
+	padding: .1em .1em .1em .1em;
+	max-width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+  margin-left: 1vw;
+	border: 1px solid #aaa;
+	box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+	border-radius: .5em;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: #fff;
+	background-repeat: no-repeat, repeat;
+	background-position: right .7em top 50%, 0 0;
+	background-size: .65em auto, 100%;
   }
 }
 </style>
