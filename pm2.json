@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "rating-app-front",
+      "script": "server/app.js",
+      "exec_mode": "fork",
+      "watch": false,
+      "ignore_watch": [
+        "node_modules"
+      ],
+      "instances": 1
+    }
+  ]
+}

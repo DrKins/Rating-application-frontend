@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+    node-app:
+        build: .
+        environment:
+            - DATABASE_HOST=db
+            - TZ=Europe/Sarajevo
+        restart: always
+        ports:
+            - 80:80 #port for http
+            - 443:443 #port for https
