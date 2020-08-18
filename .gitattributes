@@ -1,0 +1,4 @@
+server/config.js  filter=crypt diff=crypt merge=crypt
+certs/cert.pem  filter=crypt diff=crypt merge=crypt
+certs/chain.pem filter=crypt diff=crypt merge=crypt
+certs/privkey.pem filter=crypt diff=crypt merge=crypt

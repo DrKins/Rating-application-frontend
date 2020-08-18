@@ -10,8 +10,13 @@
   "dependencies": {
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
+    "connect-history-api-fallback": "^1.6.0",
     "core-js": "^3.6.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "hchs-vue-charts": "^1.2.8",
+    "path": "^0.12.7",
+    "serve-static": "^1.14.1",
     "socket.io-client": "^2.3.0",
     "store": "^2.0.12",
     "v-calendar": "^1.0.8",
