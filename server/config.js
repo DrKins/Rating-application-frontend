@@ -1,10 +1,8 @@
-const path = require('path');
-const config = {}
-
-
-config.location_key = path.resolve(__dirname, '../certs/privkey.pem');
-config.location_chain = path.resolve(__dirname, '../certs/chain.pem');
-config.location_cert = path.resolve(__dirname, '../certs/cert.pem');
-config.port=80;
-config.port2=443;
-module.exports =config;
+U2FsdGVkX18PGMHYr6WQvzTkk6qPl+pKzj2pROxQZYMs+ANRQ0dV/wWECzm8zcuB
+zA1nw4ZTBeIHqW3X5kKzcbM7SuHvrMGk5pN5VuWlvQAhH/vwFwDJve9q/jGbyx+r
+rG/HW9t1OA52jzoNtgVKn9vilCPkfrQdtHxRgpFsuyyuczQ6gFee+8cDCBy8/lpo
+Z/Ei48jegF+/jw6GwYOGXatDgA1uyvRAORZb4BKWAdcaFFcXwocTx+yROB4dg0aG
+DA2o2qLEz6q7+zY8zogg3eeJsdNl4Pa1o+S2ZVR5Pmdr09N9KXSeal+oG+4ngkl6
+yA5WtEe1dZtxdFIP9GRoXT42jrfBNgQYaf46WxAZWokewIPfWIBnNhRjWlISUXvq
+S6sWojsJTrKk34gbYuMMOftD8qAvdah5t1aJSrjQwdc76CzkKvVB4jhAzu27MRDG
+tVPiqTB/i9bWHPpSG4a/QA==
