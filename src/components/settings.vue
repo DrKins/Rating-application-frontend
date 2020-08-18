@@ -75,7 +75,7 @@ export default {
             text: "",
             len: 3,
             emojis: 3,
-            pack: "yellowPack"
+            pack: "default"
           },
     slack:{
             SlackToken : '',
@@ -97,7 +97,7 @@ export default {
   methods: {
     // Method that sends new settings of company to backend.
     send(){
-      if(this.send.text === ''){ 
+      if(this.send.text === '' || this.send.pack === 'default'){ 
         Services.Setslack(this.Token,this.slack.SlackToken,this.slack.SlackBot,this.slack.SlackChannel);
       } else Services.updateSettings(this.Token,this.message.text,this.message.len,this.message.emojis,this.message.pack);
       this.err=-1;
