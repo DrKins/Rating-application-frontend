@@ -99,7 +99,11 @@ export default {
     send(){
       if(this.send.text === '' || this.send.pack === 'default'){ 
         Services.Setslack(this.Token,this.slack.SlackToken,this.slack.SlackBot,this.slack.SlackChannel);
-      } else Services.updateSettings(this.Token,this.message.text,this.message.len,this.message.emojis,this.message.pack);
+      } else if (this.slack.Token === '' || this.slack.SlackBot === '') Services.updateSettings(this.Token,this.message.text,this.message.len,this.message.emojis,this.message.pack);
+      else{
+        Services.Setslack(this.Token,this.slack.SlackToken,this.slack.SlackBot,this.slack.SlackChannel);
+        Services.updateSettings(this.Token,this.message.text,this.message.len,this.message.emojis,this.message.pack);
+      }
       this.err=-1;
      },
     // Method that will restart animation after fail or success.
@@ -243,6 +247,7 @@ input:focus{
   cursor: default;
   animation: loading-rotation 3s ease 500ms normal;
   outline:none;
+  pointer-events: none;
 }
 .gg-close {
     box-sizing: border-box;
