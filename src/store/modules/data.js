@@ -1,11 +1,11 @@
 const state = {
     array: [],
-    adminMessage : "Hvala na povjerenju! asdweqsdaasgqeasdwqeqwewsdsa",
+    adminMessage : '',
     emoticonNumber : 0,
     adminMessageduration : 0,
-    emoticonPack: 'yellowPack',
-    token : 'nntoken',
-    level: {user:'troll',level:2,company:''},
+    emoticonPack: '',
+    token : '',
+    level: {user:'',level:0,company:''},
     items: [
         {title: 'blackPack', img: require('../../assets/blackPack/1.png'), id: 1 , number: [3,4,5]},
         {title: 'blackPack', img: require('../../assets/blackPack/2.png'), id: 2, number: [5]},
@@ -20,8 +20,8 @@ const state = {
       ],
       users:[],
       statistics: {
-          temp:[0,1,1,4,1],
-          emotc:5,
+          temp:[0,0,0,0,0],
+          emotc:0,
       },
       statisticsHour: {},
 };

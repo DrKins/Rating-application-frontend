@@ -152,6 +152,7 @@ export default {
   cursor: default;
   animation: loading-rotation 3s ease 500ms normal;
   outline:none;
+  pointer-events: none;
 } 
 .button:hover {
   background-color: rgba(28, 110, 164, 0.7);
@@ -273,6 +274,7 @@ export default {
     cursor: default;
     animation: loading-rotation 3s ease 500ms normal;
     outline:none;
+    pointer-events: none;
   }
   .row2{
     padding:5vw;
