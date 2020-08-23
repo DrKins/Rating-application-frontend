@@ -233,9 +233,6 @@ input:focus{
   outline:none;
   margin: 1vh 5vh;
 } 
-.button:hover {
-  background-color: rgba(28, 110, 164, 0.7);
-}
 .buttonActive{
   transition: ease-in 500ms;
   padding: 10px;
@@ -305,12 +302,6 @@ input:focus{
 }
 .red {
   background-color: #df775d;
-}
-.error{
-  transition: ease-in 500ms;
-  margin-top: 15%;
-  color:#df775d;
-  font-size: small;
 }
 .green {
   background-color: #5ddf8f;
@@ -407,6 +398,11 @@ input:focus{
 	background-repeat: no-repeat, repeat;
 	background-position: right .7em top 50%, 0 0;
 	background-size: .65em auto, 100%;
+  }
+}
+@media (hover: hover) {
+  .button:hover {
+    background-color: rgba(28, 110, 164, 0.7);
   }
 }
 </style>

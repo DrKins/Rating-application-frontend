@@ -154,9 +154,6 @@ export default {
   outline:none;
   pointer-events: none;
 } 
-.button:hover {
-  background-color: rgba(28, 110, 164, 0.7);
-}
 .gg-close {
     box-sizing: border-box;
     position: relative;
@@ -281,6 +278,11 @@ export default {
   }
   .row1{
     margin-top: 4vh;
+  }
+}
+@media (hover: hover) {
+  .button:hover {
+    background-color: rgba(28, 110, 164, 0.7);
   }
 }
 </style>

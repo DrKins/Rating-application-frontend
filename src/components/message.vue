@@ -84,10 +84,18 @@ p {
 }
 
 p {
+  -webkit-animation: animated-text 20s steps(42) infinite both,
+                     animated-cursor 500ms steps(42) infinite both;
   animation: animated-text 20s steps(42) infinite both,
              animated-cursor 500ms steps(42) infinite both;
 }
 
+@-webkit-keyframes animated-text{
+    0%{width: 0;}
+    50%{width: 875px;}
+    75%{width: 875px;}
+    100%{width: 0;}
+}
 @keyframes animated-text{
   0%{width: 0;}
   50%{width: 875px;}
@@ -95,6 +103,10 @@ p {
   100%{width: 0;}
 }
 
+@-webkit-keyframes animated-cursor{
+  from{border-right-color: rgba(0, 132, 255, 0.75);}
+  to{border-right-color: rgba(0,0,0,.3);}
+}
 @keyframes animated-cursor{
   from{border-right-color: rgba(0, 132, 255, 0.75);}
   to{border-right-color: rgba(0,0,0,.3);}
@@ -115,8 +127,16 @@ p {
 @media screen and (max-height:450px) and (orientation:landscape){
     p {
     font-size: 1.5rem;
-    animation: animated-text 15s steps(42) infinite both,
-              animated-cursor 500ms steps(42) infinite both;
+    -webkit-animation: animated-text 15s steps(42) infinite both
+                       animated-cursor 500ms steps(42) infinite both;
+    animation: animated-text 15s steps(42) infinite both
+               animated-cursor 500ms steps(42) infinite both;
+    }
+  @-webkit-keyframes animated-text{
+    0%{width: 0;}
+    50%{width: 530px;}
+    75%{width: 530px;}
+    100%{width: 0;}
     }
     @keyframes animated-text{
     0%{width: 0;}
@@ -128,9 +148,17 @@ p {
 @media screen and (min-height:1024px) and (orientation:portrait){
     p {
     font-size: 3rem;
+    -webkit-animation: animated-text 15s steps(22) infinite both,
+              animated-cursor 500ms steps(22) infinite both;
     animation: animated-text 15s steps(22) infinite both,
               animated-cursor 500ms steps(22) infinite both;
     }
+    @-webkit-keyframes animated-text{
+    0%{width: 0;}
+    50%{width: 532px;}
+    75%{width: 532px;}
+    100%{width: 0;}
+    }    
     @keyframes animated-text{
     0%{width: 0;}
     50%{width: 532px;}
@@ -141,8 +169,16 @@ p {
 @media screen and (min-width: 1024px) and (orientation:landscape){
     p {
     font-size: 2rem;
+    -webkit-animation: animated-text 15s steps(42) infinite both,
+              animated-cursor 500ms steps(42) infinite both;
     animation: animated-text 15s steps(42) infinite both,
               animated-cursor 500ms steps(42) infinite both;
+    }
+    @-webkit-keyframes animated-text{
+    0%{width: 0;}
+    50%{width: 705px;}
+    75%{width: 705px;}
+    100%{width: 0;}
     }
     @keyframes animated-text{
     0%{width: 0;}

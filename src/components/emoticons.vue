@@ -2,7 +2,7 @@
   <div class="background">
     <ul id="horizontal-list" v-bind:class="{none: !loaded}">
       <li v-for="item in items" :key="item.id">
-        <img v-bind:src="item.img" v-bind:alt="item.title" v-bind:class="emoticon" :id="item.id" @click="insertReaction">
+        <img v-bind:src="item.img" v-bind:alt="item.title" :id="item.id" @click="insertReaction">
       </li>
     </ul>
   </div>
@@ -109,7 +109,7 @@ li img {
   margin: 3vw;
   animation-delay: 5s;
   animation: fadeIn 2s linear;
-}
+  }
 }
 </style>
 

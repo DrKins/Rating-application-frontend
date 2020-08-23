@@ -156,9 +156,6 @@ textarea:focus, input:focus{
   color: white;
   outline:none;
 } 
-.button:hover {
-  background-color: rgba(28, 110, 164, 0.7);
-}
 .buttonActive{
   transition: ease-in 500ms;
   padding: 10px;
@@ -228,12 +225,6 @@ textarea:focus, input:focus{
 }
 .red {
   background-color: #df775d;
-}
-.error{
-  transition: ease-in 500ms;
-  margin-top: 1vh;
-  color:#df775d;
-  font-size: small;
 }
 .green {
   background-color: #5ddf8f;
@@ -305,6 +296,11 @@ textarea:focus, input:focus{
   {
     --default-color: white;
     --border-bottom-color: white;
+  }
+}
+@media (hover: hover) {
+  .button:hover {
+    background-color: rgba(28, 110, 164, 0.7);
   }
 }
 </style>

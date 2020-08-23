@@ -1,6 +1,6 @@
 <template>
 <div id="container1">
-  <div v-if="Level!=1" id="column1" class="scale-in-center">
+  <div v-if="Level!=1" id="column1" class="scale-in-center" v-bind:class="{none:!loading}">
   <table id="allUsers">
     <th>Name</th>
     <th>Level</th>
@@ -12,7 +12,7 @@
     </tr>
   </table>
   </div> 
-  <div id="column2" class="scale-in-center"> 
+  <div id="column2" class="scale-in-center" v-bind:class="{none:!loading}"> 
     <form id="form">
       <div v-if="Level==3" class="input-el">
         <span>Company:</span>
@@ -62,6 +62,7 @@ export default {
           succ: false,
           fail: false,
           err:0,
+          loading: false,
     }
   },
    computed: {
@@ -85,7 +86,7 @@ export default {
       // Fetches all clients of aplication only for Admin level 3.
     async getData() {
       this.getUsers(await Services.getallUsers(this.Token));
-      console.log("Data is fetched.")
+      this.loading=true;
     },
     restartInactive() {
       if(this.err === -1) {this.succ = true;}
@@ -210,9 +211,6 @@ input:focus{
   outline:none;
   margin-top: 2vh;
 } 
-.button:hover {
-  background-color: rgba(28, 110, 164, 0.7);
-}
 .buttonActive{
   transition: ease-in 500ms;
   padding: 10px;
@@ -283,12 +281,6 @@ input:focus{
 .red {
   background-color: #df775d;
 }
-.error{
-  transition: ease-in 500ms;
-  margin-top: 15%;
-  color:#df775d;
-  font-size: small;
-}
 .green {
   background-color: #5ddf8f;
 }
@@ -347,6 +339,11 @@ th{
   #container1{
     display: flex;
     flex-direction: column;
+  }
+}
+@media (hover: hover) {
+  .button:hover {
+    background-color: rgba(28, 110, 164, 0.7);
   }
 }
 </style>
