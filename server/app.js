@@ -5,11 +5,13 @@ const cors = require('cors');
 const history = require('connect-history-api-fallback');
 const app = express();
 const https = require('https');
+const http = require('http');
 const fs = require('fs');
 /**
  * Load secret variables
  */
 const config = require("./config");
+
 app.use(express.json());
 app.use(cors());
 app.use(history());
@@ -30,10 +32,8 @@ https.createServer({
     }`);
 });
 
-app.listen(config.port, () => console.log(`Listening on ${
-    config.port
-}`));
 
-app.get('*', function(req, res) {  
-    res.redirect('https://' + req.headers.host + req.url);
-})
+http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+}).listen(config.port);
