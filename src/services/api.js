@@ -1,5 +1,6 @@
 import axios from "axios";
 const url = 'https://praksans.dyndns.org:8006/api/';
+//const url = 'http://localhost:8005/api/'
 //const url = 'http://192.168.1.112/api/';
 axios.defaults.withCredentials = false;
 class Services

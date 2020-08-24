@@ -211,11 +211,6 @@ export default {
 .red {
   background-color: #df775d;
 }
-.error{
-  transition: ease-in 500ms;
-  color:#df775d;
-  font-size: small;
-}
 .green {
   background-color: #5ddf8f;
 }

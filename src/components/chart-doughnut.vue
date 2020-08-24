@@ -43,8 +43,10 @@ export default {
   sockets: {
     // Socket.io listening for server emit after client sends reaction.
     INSERTION() {
-      this.statistics();
-      this.statisticsHour();
+      setTimeout(() => {
+        this.statistics();
+        this.statisticsHour();
+      }, 500);
     }
   },
   async created()

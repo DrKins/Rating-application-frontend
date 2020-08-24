@@ -37,7 +37,6 @@
         <span class="gg-close" v-bind:class="{ none: !fail}"></span>
         <span class="gg-check" v-bind:class="{ none: !succ}"></span>
       </button>
-      <span class="error" v-bind:class="{ none: err=== -1 || err=== 0}">{{errMsg}}</span>
     </form>
   </div>
 </div>
