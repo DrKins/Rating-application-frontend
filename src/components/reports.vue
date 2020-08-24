@@ -6,7 +6,7 @@
         v-model="date" />
       </div>
       <div class="row2">
-        <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
+        <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send();">
           <span v-bind:class="{ none: inactive}">{{loginText}}</span>
           <span class="gg-close" v-bind:class="{ none: !fail}"></span>
           <span class="gg-check" v-bind:class="{ none: !succ}"></span>
@@ -62,6 +62,7 @@ export default {
       ]),
       // Method that sends date to backend and gets proper statistics that will be shown via charts.
       async send(){
+        this.inactive=!this.inactive;
         this.search = true;
         this.getStatisticsAction(await Services.getReport(this.Token,this.parseDate()))
         this.err = -1;

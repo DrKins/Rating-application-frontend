@@ -32,7 +32,7 @@
         <span >Password:</span>
         <input class="input" v-model="user.password"  type="password" placeholder='Enter password'>
       </div>
-      <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
+      <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send();">
         <span v-bind:class="{ none: inactive}">{{loginText}}</span>
         <span class="gg-close" v-bind:class="{ none: !fail}"></span>
         <span class="gg-check" v-bind:class="{ none: !succ}"></span>
@@ -74,6 +74,7 @@ export default {
   methods: {
     // Method that checks admin level and sends right data to backend.
     send(){
+      this.inactive=!this.inactive;
       if(this.Level === 3) {
         Services.register(this.Token,this.user.name,this.user.password,this.data.lvl,this.user.company);
         this.err = -1;

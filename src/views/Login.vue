@@ -1,18 +1,18 @@
 <template>
 <div id="login">
 <form id="form">
-  <div class="row1">
+  <div class="row1" v-on:keyup.enter="send()">
     <span class="tag">Username:</span>
     <input class="input-el" v-model="message.username" placeholder="Username">
     <br>
   </div>
-  <div class="row2">
+  <div class="row2" v-on:keyup.enter="send()" >
   <span class="tag">Password:</span>
   <input class="input-el" type="password" v-model="message.password" placeholder="Password"><br>
   <br>
   </div>
   <div class="row3">
-    <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
+    <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send()">
      <span v-bind:class="{ none: inactive}">{{loginText}}</span>
      <span class="gg-close" v-bind:class="{ none: !fail}"></span>
      <span class="gg-check" v-bind:class="{ none: !succ}"></span>
@@ -53,6 +53,7 @@ export default {
      {
        // Method that sends data to backend and redirect to proper page.
       async send(){
+        this.inactive=!this.inactive;
         this.updateTokenAction(await Services.login(this.message.username,this.message.password))
         this.err=-1;
         setTimeout(()=>{

@@ -53,7 +53,7 @@
     </div>
   </div>
     <div class="column2">
-      <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send(); inactive=!inactive;">
+      <button class="button" v-bind:class="{ buttonActive: inactive, red: fail, green: succ }" type="button" @click="send();">
         <span v-bind:class="{ none: inactive}">{{loginText}}</span>
         <span class="gg-close" v-bind:class="{ none: !fail}"></span>
         <span class="gg-check" v-bind:class="{ none: !succ}"></span>
@@ -97,6 +97,7 @@ export default {
   methods: {
     // Method that sends new settings of company to backend.
     send(){
+      this.inactive=!this.inactive;
       if(this.send.text === '' || this.send.pack === 'default'){ 
         Services.Setslack(this.Token,this.slack.SlackToken,this.slack.SlackBot,this.slack.SlackChannel);
       } else if (this.slack.Token === '' || this.slack.SlackBot === '') Services.updateSettings(this.Token,this.message.text,this.message.len,this.message.emojis,this.message.pack);

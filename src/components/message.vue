@@ -66,7 +66,7 @@ p {
   white-space: nowrap;
   overflow: hidden;    
   font-family: 'Source Code Pro', monospace;  
-  font-size: 5.5vh;
+  font-size: 4.5vh;
   color: rgba(255,255,255,.70);
   margin: 0 auto;
   text-shadow: 0 1px 0 #ccc,

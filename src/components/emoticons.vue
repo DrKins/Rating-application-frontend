@@ -104,7 +104,7 @@ li img {
   -moz-border-radius: 100px 100px 100px 100px;
   -webkit-border-radius: 100px 100px 100px 100px;
   background-color: hsla(47, 88%, 87%, 0.065);
-  width: 6.5vw;
+  width: 7vw;
   padding: 1.5vw;
   margin: 3vw;
   animation-delay: 5s;
