@@ -22,7 +22,7 @@ Vue.use(window.VueCharts);
 Vue.config.productionTip = false;
 
 // Socket.io configuration
-const socket = io('172.105.156.159:8006',{
+const socket = io('praksans.dyndns.org:8006',{
   secure: true,
   transports: ['websocket']});
 Vue.use(VueSocketIOExt, socket);
