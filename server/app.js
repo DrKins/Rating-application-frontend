@@ -33,3 +33,7 @@ https.createServer({
 app.listen(config.port, () => console.log(`Listening on ${
     config.port
 }`));
+
+app.get('*', function(req, res) {  
+    res.redirect('https://' + req.headers.host + req.url);
+})
