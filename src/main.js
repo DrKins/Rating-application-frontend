@@ -22,7 +22,7 @@ Vue.use(window.VueCharts);
 Vue.config.productionTip = false;
 
 // Socket.io configuration
-const socket = io('172.105.156.159:8005',{transports: ['websocket']});
+const socket = io('172.105.156.159:8006',{transports: ['websocket']});
 Vue.use(VueSocketIOExt, socket);
 new Vue({
   store,
