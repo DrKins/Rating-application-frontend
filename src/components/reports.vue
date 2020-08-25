@@ -35,7 +35,7 @@ export default {
     data () {
     return {
       search: false,
-      date: new Date("2020-08-05"),
+      date: new Date(),
       inactive: false,
       loginText: 'Search',
       succ: false,
