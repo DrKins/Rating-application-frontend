@@ -71,7 +71,9 @@ export default {
       // Method that redirects from current page to login.
     reloading() {
        this.$router.push('/');
-       location.reload();
+        setTimeout(()=>{
+          location.reload();
+        },1000)
      },
      // Clock in real time.
     startTime() {
@@ -88,6 +90,11 @@ export default {
     checkTime(i) {
     if (i < 10) {i = "0" + i}
     return i;
+    },
+    checkToken(){
+      if(this.getToken === '') {
+        this.reloading();
+      }
     }
     },
     computed: {
@@ -99,6 +106,7 @@ export default {
     created(){
       // Calling clock function to start.
       this.startTime();
+      this.checkToken();
     }
 }
 </script>
